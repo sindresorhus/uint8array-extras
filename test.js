@@ -11,6 +11,8 @@ import {
 	base64ToUint8Array,
 	stringToBase64,
 	base64ToString,
+	uint8ArrayToHex,
+	hexToUint8Array,
 } from './index.js';
 
 test('isUint8Array', t => {
@@ -114,4 +116,15 @@ test('uint8ArrayToBase64 and base64ToUint8Array #2', t => {
 test('stringToBase64 and base64ToString', t => {
 	const fixture = 'a Ā 𐀀 文 🦄';
 	t.is(base64ToString(stringToBase64(base64ToString(stringToBase64(fixture)))), fixture);
+});
+
+test('uint8ArrayToHex', t => {
+	const fixture = stringToUint8Array('Hello - a Ā 𐀀 文 🦄');
+	t.is(uint8ArrayToHex(fixture), Buffer.from(fixture).toString('hex')); // eslint-disable-line n/prefer-global/buffer
+});
+
+test('hexToUint8Array', t => {
+	const fixtureString = 'Hello - a Ā 𐀀 文 🦄';
+	const fixtureHex = Buffer.from(fixtureString).toString('hex'); // eslint-disable-line n/prefer-global/buffer
+	t.deepEqual(hexToUint8Array(fixtureHex), new Uint8Array(Buffer.from(fixtureHex, 'hex'))); // eslint-disable-line n/prefer-global/buffer
 });

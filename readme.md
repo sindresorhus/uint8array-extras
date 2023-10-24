@@ -32,6 +32,8 @@ console.log(concatUint8Arrays([a, b]));
 
 Check if the given value is an instance of `Uint8Array`.
 
+Replacement for [`Buffer.isBuffer()`](https://nodejs.org/api/buffer.html#static-method-bufferisbufferobj).
+
 ```js
 import {isUint8Array} from 'uint8array-extras';
 
@@ -64,6 +66,8 @@ If `arrays` is empty, it will return a zero-sized `Uint8Array`.
 
 If `totalLength` is not specified, it is calculated from summing the lengths of the given arrays.
 
+Replacement for [`Buffer.concat()`](https://nodejs.org/api/buffer.html#static-method-bufferconcatlist-totallength).
+
 ```js
 import {concatUint8Arrays} from 'uint8array-extras';
 
@@ -77,6 +81,8 @@ console.log(concatUint8Arrays([a, b]));
 ### `areUint8ArraysEqual(a: Uint8Array, b: Uint8Array): boolean`
 
 Check if two arrays are identical by verifying that they contain the same bytes in the same sequence.
+
+Replacement for [`Buffer#equals()`](https://nodejs.org/api/buffer.html#bufequalsotherbuffer).
 
 ```js
 import {areUint8ArraysEqual} from 'uint8array-extras';
@@ -96,6 +102,8 @@ console.log(areUint8ArraysEqual(a, c));
 
 Compare two arrays and indicate their relative order or equality. Useful for sorting.
 
+Replacement for [`Buffer.compare()`](https://nodejs.org/api/buffer.html#static-method-buffercomparebuf1-buf2).
+
 ```js
 import {compareUint8Arrays} from 'uint8array-extras';
 
@@ -111,6 +119,8 @@ const array3 = new Uint8Array([7, 8, 9]);
 
 Convert a `Uint8Array` (containing a UTF-8 string) to a string.
 
+Replacement for [`Buffer#toString()`](https://nodejs.org/api/buffer.html#buftostringencoding-start-end).
+
 ```js
 import {uint8ArrayToString} from 'uint8array-extras';
 
@@ -124,16 +134,20 @@ console.log(uint8ArrayToString(byteArray));
 
 Convert a string to a `Uint8Array` (using UTF-8 encoding).
 
+Replacement for [`Buffer.from('Hello')`](https://nodejs.org/api/buffer.html#static-method-bufferfromstring-encoding).
+
 ```js
 import {stringToUint8Array} from 'uint8array-extras';
 
 console.log(stringToUint8Array('Hello'));
 //=> Uint8Array [72, 101, 108, 108, 111]
-````
+```
 
 #### `uint8ArrayToBase64(array: Uint8Array): string`
 
 Convert a `Uint8Array` to a Base64-encoded string.
+
+Replacement for [`Buffer#toString('base64')`](https://nodejs.org/api/buffer.html#buftostringencoding-start-end).
 
 ```js
 import {uint8ArrayToBase64} from 'uint8array-extras';
@@ -142,11 +156,13 @@ const byteArray = new Uint8Array([72, 101, 108, 108, 111]);
 
 console.log(uint8ArrayToBase64(byteArray));
 //=> 'SGVsbG8='
-````
+```
 
 #### `base64ToUint8Array(string: string): Uint8Array`
 
 Convert a Base64-encoded string to a `Uint8Array`.
+
+Replacement for [`Buffer.from('SGVsbG8=', 'base64')`](https://nodejs.org/api/buffer.html#static-method-bufferfromstring-encoding).
 
 ```js
 import {base64ToUint8Array} from 'uint8array-extras';
@@ -159,6 +175,8 @@ console.log(base64ToUint8Array('SGVsbG8='));
 
 Encode a string to Base64-encoded string.
 
+Replacement for `Buffer.from('Hello').toString('base64')`.
+
 ```js
 import {stringToBase64} from 'uint8array-extras';
 
@@ -166,13 +184,43 @@ console.log(stringToBase64('Hello'));
 //=> 'SGVsbG8='
 ```
 
-#### `base64ToString(string: string): string`
+#### `base64ToString(base64String: string): string`
 
 Decode a Base64-encoded string to a string.
+
+Replacement for `Buffer.from('SGVsbG8=', 'base64').toString()`.
 
 ```js
 import {base64ToString} from 'uint8array-extras';
 
 console.log(base64ToString('SGVsbG8='));
 //=> 'Hello'
+```
+
+#### `uint8ArrayToHex(array: Uint8Array): string`
+
+Convert a `Uint8Array` to a Hex string.
+
+Replacement for [`Buffer#toString('hex')`](https://nodejs.org/api/buffer.html#buftostringencoding-start-end).
+
+```js
+import {uint8ArrayToHex} from 'uint8array-extras';
+
+const byteArray = new Uint8Array([72, 101, 108, 108, 111]);
+
+console.log(uint8ArrayToHex(byteArray));
+//=> '48656c6c6f'
+```
+
+#### `hexToUint8Array(hexString: string): Uint8Array`
+
+Convert a Hex string to a `Uint8Array`.
+
+Replacement for [`Buffer.from('48656c6c6f', 'hex')`](https://nodejs.org/api/buffer.html#static-method-bufferfromstring-encoding).
+
+```js
+import {hexToUint8Array} from 'uint8array-extras';
+
+console.log(hexToUint8Array('48656c6c6f'));
+//=> Uint8Array [72, 101, 108, 108, 111]
 ```

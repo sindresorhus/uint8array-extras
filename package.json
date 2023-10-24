@@ -41,7 +41,9 @@
 		"base64",
 		"string",
 		"atob",
-		"btoa"
+		"btoa",
+		"hex",
+		"hexadecimal"
 	],
 	"devDependencies": {
 		"ava": "^5.3.1",
