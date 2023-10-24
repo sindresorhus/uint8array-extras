@@ -1,0 +1,46 @@
+{
+	"name": "uint8array-extras",
+	"version": "0.0.0",
+	"description": "Useful utilities for working with Uint8Array (and Buffer)",
+	"license": "MIT",
+	"repository": "sindresorhus/uint8array-extras",
+	"funding": "https://github.com/sponsors/sindresorhus",
+	"author": {
+		"name": "Sindre Sorhus",
+		"email": "sindresorhus@gmail.com",
+		"url": "https://sindresorhus.com"
+	},
+	"type": "module",
+	"exports": {
+		"types": "./index.d.ts",
+		"default": "./index.js"
+	},
+	"engines": {
+		"node": ">=18"
+	},
+	"sideEffects": false,
+	"scripts": {
+		"test": "xo && ava"
+	},
+	"files": [
+		"index.js",
+		"index.d.ts"
+	],
+	"keywords": [
+		"uint8array",
+		"uint8",
+		"typedarray",
+		"buffer",
+		"typedarray",
+		"arraybuffer",
+		"is",
+		"assert",
+		"concat",
+		"equals",
+		"compare"
+	],
+	"devDependencies": {
+		"ava": "^5.3.1",
+		"xo": "^0.56.0"
+	}
+}
