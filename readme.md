@@ -2,7 +2,7 @@
 
 > Useful utilities for working with [`Uint8Array`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) (and [`Buffer`](https://nodejs.org/api/buffer.html))
 
-This package tries to fill in the gaps when moving from Node.js `Buffer` to `Uint8Array`.
+It's time to [transition from `Buffer` to `Uint8Array`](https://sindresorhus.com/blog/goodbye-nodejs-buffer), and this package helps fill in the gaps.
 
 Note that `Buffer` is a `Uint8Array` subclass, so you can use this package with `Buffer` too.
 
