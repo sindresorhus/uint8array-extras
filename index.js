@@ -79,3 +79,40 @@ export function compareUint8Arrays(a, b) {
 
 	return 0;
 }
+
+export function uint8ArrayToString(array) {
+	assertUint8Array(array);
+	return (new globalThis.TextDecoder()).decode(array);
+}
+
+function assertString(value) {
+	if (typeof value !== 'string') {
+		throw new TypeError(`Expected \`string\`, got \`${typeof value}\``);
+	}
+}
+
+export function stringToUint8Array(string) {
+	assertString(string);
+	return (new globalThis.TextEncoder()).encode(string);
+}
+
+export function uint8ArrayToBase64(bytes) {
+	assertUint8Array(bytes);
+	// Required as `btoa` and `atob` don't properly support Unicode: https://developer.mozilla.org/en-US/docs/Glossary/Base64#the_unicode_problem
+	return globalThis.btoa(String.fromCodePoint(...bytes));
+}
+
+export function base64ToUint8Array(base64String) {
+	assertString(base64String);
+	return Uint8Array.from(globalThis.atob(base64String), x => x.codePointAt(0));
+}
+
+export function stringToBase64(string) {
+	assertString(string);
+	return uint8ArrayToBase64(stringToUint8Array(string));
+}
+
+export function base64ToString(base64String) {
+	assertString(base64String);
+	return uint8ArrayToString(base64ToUint8Array(base64String));
+}

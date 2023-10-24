@@ -37,7 +37,11 @@
 		"assert",
 		"concat",
 		"equals",
-		"compare"
+		"compare",
+		"base64",
+		"string",
+		"atob",
+		"btoa"
 	],
 	"devDependencies": {
 		"ava": "^5.3.1",

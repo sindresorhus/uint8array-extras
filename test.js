@@ -1,5 +1,17 @@
 import test from 'ava';
-import {isUint8Array, assertUint8Array, concatUint8Arrays, areUint8ArraysEqual, compareUint8Arrays} from './index.js';
+import {
+	isUint8Array,
+	assertUint8Array,
+	concatUint8Arrays,
+	areUint8ArraysEqual,
+	compareUint8Arrays,
+	uint8ArrayToString,
+	stringToUint8Array,
+	uint8ArrayToBase64,
+	base64ToUint8Array,
+	stringToBase64,
+	base64ToString,
+} from './index.js';
 
 test('isUint8Array', t => {
 	t.true(isUint8Array(new Uint8Array()));
@@ -78,4 +90,28 @@ test('compareUint8Arrays - with different lengths', t => {
 	const array5 = new Uint8Array([1, 2, 3, 4]);
 	t.is(compareUint8Arrays(array1, array5), -1);
 	t.is(compareUint8Arrays(array5, array1), 1);
+});
+
+test('stringToUint8Array and uint8ArrayToString', t => {
+	const fixture = 'Hello';
+	const array = stringToUint8Array(fixture);
+	t.deepEqual(array, new Uint8Array([72, 101, 108, 108, 111]));
+	t.is(uint8ArrayToString(array), fixture);
+});
+
+test('uint8ArrayToBase64 and base64ToUint8Array', t => {
+	const fixture = stringToUint8Array('Hello');
+	const base64 = uint8ArrayToBase64(fixture);
+	t.is(base64, 'SGVsbG8=');
+	t.deepEqual(base64ToUint8Array(base64), fixture);
+});
+
+test('uint8ArrayToBase64 and base64ToUint8Array #2', t => {
+	const fixture = stringToUint8Array('a Ā 𐀀 文 🦄');
+	t.deepEqual(base64ToUint8Array(uint8ArrayToBase64(base64ToUint8Array(uint8ArrayToBase64(fixture)))), fixture);
+});
+
+test('stringToBase64 and base64ToString', t => {
+	const fixture = 'a Ā 𐀀 文 🦄';
+	t.is(base64ToString(stringToBase64(base64ToString(stringToBase64(fixture)))), fixture);
 });
