@@ -115,7 +115,7 @@ const array3 = new Uint8Array([7, 8, 9]);
 //=> [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 ```
 
-#### `uint8ArrayToString(array: Uint8Array): string`
+### `uint8ArrayToString(array: Uint8Array): string`
 
 Convert a `Uint8Array` (containing a UTF-8 string) to a string.
 
@@ -130,7 +130,7 @@ console.log(uint8ArrayToString(byteArray));
 //=> 'Hello'
 ```
 
-#### `stringToUint8Array(string: string): Uint8Array`
+### `stringToUint8Array(string: string): Uint8Array`
 
 Convert a string to a `Uint8Array` (using UTF-8 encoding).
 
@@ -143,7 +143,7 @@ console.log(stringToUint8Array('Hello'));
 //=> Uint8Array [72, 101, 108, 108, 111]
 ```
 
-#### `uint8ArrayToBase64(array: Uint8Array, options?: {urlSafe: boolean}): string`
+### `uint8ArrayToBase64(array: Uint8Array, options?: {urlSafe: boolean}): string`
 
 Convert a `Uint8Array` to a Base64-encoded string.
 
@@ -160,7 +160,7 @@ console.log(uint8ArrayToBase64(byteArray));
 //=> 'SGVsbG8='
 ```
 
-#### `base64ToUint8Array(string: string): Uint8Array`
+### `base64ToUint8Array(string: string): Uint8Array`
 
 Convert a Base64-encoded or [Base64URL](https://base64.guru/standards/base64url)-encoded string to a `Uint8Array`.
 
@@ -173,7 +173,7 @@ console.log(base64ToUint8Array('SGVsbG8='));
 //=> Uint8Array [72, 101, 108, 108, 111]
 ```
 
-#### `stringToBase64(string: string, options?: {urlSafe: boolean}): string`
+### `stringToBase64(string: string, options?: {urlSafe: boolean}): string`
 
 Encode a string to Base64-encoded string.
 
@@ -188,7 +188,7 @@ console.log(stringToBase64('Hello'));
 //=> 'SGVsbG8='
 ```
 
-#### `base64ToString(base64String: string): string`
+### `base64ToString(base64String: string): string`
 
 Decode a Base64-encoded or [Base64URL](https://base64.guru/standards/base64url)-encoded string to a string.
 
@@ -201,7 +201,7 @@ console.log(base64ToString('SGVsbG8='));
 //=> 'Hello'
 ```
 
-#### `uint8ArrayToHex(array: Uint8Array): string`
+### `uint8ArrayToHex(array: Uint8Array): string`
 
 Convert a `Uint8Array` to a Hex string.
 
@@ -216,7 +216,7 @@ console.log(uint8ArrayToHex(byteArray));
 //=> '48656c6c6f'
 ```
 
-#### `hexToUint8Array(hexString: string): Uint8Array`
+### `hexToUint8Array(hexString: string): Uint8Array`
 
 Convert a Hex string to a `Uint8Array`.
 
