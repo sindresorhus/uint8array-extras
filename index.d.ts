@@ -130,6 +130,8 @@ export function stringToUint8Array(string: string): Uint8Array;
 /**
 Convert a `Uint8Array` to a Base64-encoded string.
 
+Specify `{urlSafe: true}` to get a [Base64URL](https://base64.guru/standards/base64url)-encoded string.
+
 Replacement for [`Buffer#toString('base64')`](https://nodejs.org/api/buffer.html#buftostringencoding-start-end).
 
 @example
@@ -142,10 +144,10 @@ console.log(uint8ArrayToBase64(byteArray));
 //=> 'SGVsbG8='
 ```
 */
-export function uint8ArrayToBase64(array: Uint8Array): string;
+export function uint8ArrayToBase64(array: Uint8Array, options?: {urlSafe: boolean}): string;
 
 /**
-Convert a Base64-encoded string to a `Uint8Array`.
+Convert a Base64-encoded or [Base64URL](https://base64.guru/standards/base64url)-encoded string to a `Uint8Array`.
 
 Replacement for [`Buffer.from('SGVsbG8=', 'base64')`](https://nodejs.org/api/buffer.html#static-method-bufferfromstring-encoding).
 
@@ -162,6 +164,8 @@ export function base64ToUint8Array(string: string): Uint8Array;
 /**
 Encode a string to Base64-encoded string.
 
+Specify `{urlSafe: true}` to get a [Base64URL](https://base64.guru/standards/base64url)-encoded string.
+
 Replacement for `Buffer.from('🦄').toString('base64')`.
 
 @example
@@ -172,10 +176,10 @@ console.log(stringToBase64('Hello'));
 //=> 'SGVsbG8='
 ```
 */
-export function stringToBase64(string: string): string;
+export function stringToBase64(string: string, options?: {urlSafe: boolean}): string;
 
 /**
-Decode a Base64-encoded string to a string.
+Decode a Base64-encoded or [Base64URL](https://base64.guru/standards/base64url)-encoded string to a string.
 
 Replacement for `Buffer.from('SGVsbG8=', 'base64').toString()`.
 

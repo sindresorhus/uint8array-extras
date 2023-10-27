@@ -118,6 +118,12 @@ test('stringToBase64 and base64ToString', t => {
 	t.is(base64ToString(stringToBase64(base64ToString(stringToBase64(fixture)))), fixture);
 });
 
+test('stringToBase64 - urlSafe option', t => {
+	const fixture = 'subjects?_d=1 🦄';
+	t.is(stringToBase64(fixture, {urlSafe: true}), Buffer.from(fixture).toString('base64url')); // eslint-disable-line n/prefer-global/buffer
+	t.is(base64ToString(stringToBase64(base64ToString(stringToBase64(fixture, {urlSafe: true})), {urlSafe: true})), fixture);
+});
+
 test('uint8ArrayToHex', t => {
 	const fixture = stringToUint8Array('Hello - a Ā 𐀀 文 🦄');
 	t.is(uint8ArrayToHex(fixture), Buffer.from(fixture).toString('hex')); // eslint-disable-line n/prefer-global/buffer

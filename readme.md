@@ -143,9 +143,11 @@ console.log(stringToUint8Array('Hello'));
 //=> Uint8Array [72, 101, 108, 108, 111]
 ```
 
-#### `uint8ArrayToBase64(array: Uint8Array): string`
+#### `uint8ArrayToBase64(array: Uint8Array, options?: {urlSafe: boolean}): string`
 
 Convert a `Uint8Array` to a Base64-encoded string.
+
+Specify `{urlSafe: true}` to get a [Base64URL](https://base64.guru/standards/base64url)-encoded string.
 
 Replacement for [`Buffer#toString('base64')`](https://nodejs.org/api/buffer.html#buftostringencoding-start-end).
 
@@ -160,7 +162,7 @@ console.log(uint8ArrayToBase64(byteArray));
 
 #### `base64ToUint8Array(string: string): Uint8Array`
 
-Convert a Base64-encoded string to a `Uint8Array`.
+Convert a Base64-encoded or [Base64URL](https://base64.guru/standards/base64url)-encoded string to a `Uint8Array`.
 
 Replacement for [`Buffer.from('SGVsbG8=', 'base64')`](https://nodejs.org/api/buffer.html#static-method-bufferfromstring-encoding).
 
@@ -171,9 +173,11 @@ console.log(base64ToUint8Array('SGVsbG8='));
 //=> Uint8Array [72, 101, 108, 108, 111]
 ```
 
-#### `stringToBase64(string: string): string`
+#### `stringToBase64(string: string, options?: {urlSafe: boolean}): string`
 
 Encode a string to Base64-encoded string.
+
+Specify `{urlSafe: true}` to get a [Base64URL](https://base64.guru/standards/base64url)-encoded string.
 
 Replacement for `Buffer.from('Hello').toString('base64')`.
 
@@ -186,7 +190,7 @@ console.log(stringToBase64('Hello'));
 
 #### `base64ToString(base64String: string): string`
 
-Decode a Base64-encoded string to a string.
+Decode a Base64-encoded or [Base64URL](https://base64.guru/standards/base64url)-encoded string to a string.
 
 Replacement for `Buffer.from('SGVsbG8=', 'base64').toString()`.
 

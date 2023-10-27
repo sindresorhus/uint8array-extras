@@ -96,21 +96,31 @@ export function stringToUint8Array(string) {
 	return (new globalThis.TextEncoder()).encode(string);
 }
 
-export function uint8ArrayToBase64(array) {
+function base64ToBase64Url(base64) {
+	return base64.replaceAll('+', '-').replaceAll('/', '_').replace(/=+$/, '');
+}
+
+function base64UrlToBase64(base64url) {
+	return base64url.replaceAll('-', '+').replaceAll('_', '/');
+}
+
+export function uint8ArrayToBase64(array, {urlSafe = false} = {}) {
 	assertUint8Array(array);
 
 	// Required as `btoa` and `atob` don't properly support Unicode: https://developer.mozilla.org/en-US/docs/Glossary/Base64#the_unicode_problem
-	return globalThis.btoa(String.fromCodePoint(...array));
+	const base64 = globalThis.btoa(String.fromCodePoint(...array));
+
+	return urlSafe ? base64ToBase64Url(base64) : base64;
 }
 
 export function base64ToUint8Array(base64String) {
 	assertString(base64String);
-	return Uint8Array.from(globalThis.atob(base64String), x => x.codePointAt(0));
+	return Uint8Array.from(globalThis.atob(base64UrlToBase64(base64String)), x => x.codePointAt(0));
 }
 
-export function stringToBase64(string) {
+export function stringToBase64(string, {urlSafe = false} = {}) {
 	assertString(string);
-	return uint8ArrayToBase64(stringToUint8Array(string));
+	return uint8ArrayToBase64(stringToUint8Array(string), {urlSafe});
 }
 
 export function base64ToString(base64String) {
