@@ -40,6 +40,9 @@ import {isUint8Array} from 'uint8array-extras';
 console.log(isUint8Array(new Uint8Array()));
 //=> true
 
+console.log(isUint8Array(Buffer.from('x')));
+//=> true
+
 console.log(isUint8Array(new ArrayBuffer(10)));
 //=> false
 ```
