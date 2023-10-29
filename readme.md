@@ -6,7 +6,11 @@ It's time to [transition from `Buffer` to `Uint8Array`](https://sindresorhus.com
 
 Note that `Buffer` is a `Uint8Array` subclass, so you can use this package with `Buffer` too.
 
-This package is tree-shakeable.
+This package is tree-shakeable and browser-compatible.
+
+This package also includes methods to convert a string to Base64 and back.
+
+Note: In the browser, do not use [`globalThis.atob()`](https://developer.mozilla.org/en-US/docs/Web/API/atob) / [`globalThis.btoa()`](https://developer.mozilla.org/en-US/docs/Web/API/btoa) because they [do not support Unicode](https://developer.mozilla.org/en-US/docs/Glossary/Base64#the_unicode_problem). This package does.
 
 ## Install
 
@@ -190,7 +194,7 @@ Encode a string to Base64-encoded string.
 
 Specify `{urlSafe: true}` to get a [Base64URL](https://base64.guru/standards/base64url)-encoded string.
 
-Replacement for `Buffer.from('Hello').toString('base64')`.
+Replacement for `Buffer.from('Hello').toString('base64')` and [`btoa()`](https://developer.mozilla.org/en-US/docs/Web/API/btoa).
 
 ```js
 import {stringToBase64} from 'uint8array-extras';
@@ -203,7 +207,7 @@ console.log(stringToBase64('Hello'));
 
 Decode a Base64-encoded or [Base64URL](https://base64.guru/standards/base64url)-encoded string to a string.
 
-Replacement for `Buffer.from('SGVsbG8=', 'base64').toString()`.
+Replacement for `Buffer.from('SGVsbG8=', 'base64').toString()` and [`atob()`](https://developer.mozilla.org/en-US/docs/Web/API/atob).
 
 ```js
 import {base64ToString} from 'uint8array-extras';

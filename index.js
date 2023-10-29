@@ -11,20 +11,11 @@ export function assertUint8Array(value) {
 }
 
 export function toUint8Array(value) {
-	if (value === null || typeof value !== 'object') {
-		throw new TypeError(`Unsupported value, got \`${typeof value}\`.`);
-	}
-
 	if (value instanceof ArrayBuffer) {
 		return new Uint8Array(value);
 	}
 
 	if (ArrayBuffer.isView(value)) {
-		// It's unclear if this is safe and the saving is minuscle.
-		// if (Object.getPrototypeOf(value) === Uint8Array.prototype) {
-		// 	return value;
-		// }
-
 		return new Uint8Array(value.buffer, value.byteOffset, value.byteLength);
 	}
 

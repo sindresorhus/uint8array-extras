@@ -191,7 +191,7 @@ Encode a string to Base64-encoded string.
 
 Specify `{urlSafe: true}` to get a [Base64URL](https://base64.guru/standards/base64url)-encoded string.
 
-Replacement for `Buffer.from('🦄').toString('base64')`.
+Replacement for `Buffer.from('Hello').toString('base64')` and [`btoa()`](https://developer.mozilla.org/en-US/docs/Web/API/btoa).
 
 @example
 ```
@@ -206,7 +206,7 @@ export function stringToBase64(string: string, options?: {urlSafe: boolean}): st
 /**
 Decode a Base64-encoded or [Base64URL](https://base64.guru/standards/base64url)-encoded string to a string.
 
-Replacement for `Buffer.from('SGVsbG8=', 'base64').toString()`.
+Replacement for `Buffer.from('SGVsbG8=', 'base64').toString()` and [`atob()`](https://developer.mozilla.org/en-US/docs/Web/API/atob).
 
 @example
 ```

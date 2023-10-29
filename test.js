@@ -46,11 +46,6 @@ test('toUint8Array - DataView', t => {
 	t.true(isUint8ArrayStrict(toUint8Array(fixture)));
 });
 
-/// test('toUint8Array - non-subcclass Uint8Array is passed through', t => {
-// 	const fixture = new Uint8Array([1, 2]);
-// 	t.is(isUint8ArrayStrict(fixture), fixture);
-// });
-
 test('concatUint8Arrays - combining multiple Uint8Arrays', t => {
 	const array1 = new Uint8Array([1, 2, 3]);
 	const array2 = new Uint8Array([4, 5, 6]);
