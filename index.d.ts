@@ -1,3 +1,16 @@
+export type TypedArray =
+	| Int8Array
+	| Uint8Array
+	| Uint8ClampedArray
+	| Int16Array
+	| Uint16Array
+	| Int32Array
+	| Uint32Array
+	| Float32Array
+	| Float64Array
+	| BigInt64Array
+	| BigUint64Array;
+
 /**
 Check if the given value is an instance of `Uint8Array`.
 
@@ -34,6 +47,15 @@ try {
 ```
 */
 export function assertUint8Array(value: unknown): asserts value is Uint8Array;
+
+/**
+Convert a value to a `Uint8Array` without copying its data.
+
+This can be useful for converting a `Buffer` to a pure `Uint8Array`. `Buffer` is already an `Uint8Array` subclass, but [`Buffer` alters some behavior](https://sindresorhus.com/blog/goodbye-nodejs-buffer), so it can be useful to cast it to a pure `Uint8Array` before returning it.
+
+Tip: If you want a copy, just call `.slice()` on the return value.
+*/
+export function toUint8Array(value: TypedArray | ArrayBuffer | DataView): Uint8Array;
 
 /**
 Concatenate the given arrays into a new array.

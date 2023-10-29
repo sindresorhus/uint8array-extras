@@ -2,6 +2,7 @@ import test from 'ava';
 import {
 	isUint8Array,
 	assertUint8Array,
+	toUint8Array,
 	concatUint8Arrays,
 	areUint8ArraysEqual,
 	compareUint8Arrays,
@@ -27,6 +28,28 @@ test('assertUint8Array', t => {
 		instanceOf: TypeError,
 	});
 });
+
+const isUint8ArrayStrict = value => Object.getPrototypeOf(value) === Uint8Array.prototype;
+
+test('toUint8Array - TypedArray', t => {
+	const fixture = new Float32Array(1);
+	t.true(isUint8ArrayStrict(toUint8Array(fixture)));
+});
+
+test('toUint8Array - ArrayBuffer', t => {
+	const fixture = new ArrayBuffer(1);
+	t.true(isUint8ArrayStrict(toUint8Array(fixture)));
+});
+
+test('toUint8Array - DataView', t => {
+	const fixture = new DataView(new ArrayBuffer(1));
+	t.true(isUint8ArrayStrict(toUint8Array(fixture)));
+});
+
+/// test('toUint8Array - non-subcclass Uint8Array is passed through', t => {
+// 	const fixture = new Uint8Array([1, 2]);
+// 	t.is(isUint8ArrayStrict(fixture), fixture);
+// });
 
 test('concatUint8Arrays - combining multiple Uint8Arrays', t => {
 	const array1 = new Uint8Array([1, 2, 3]);

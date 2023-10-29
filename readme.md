@@ -61,6 +61,14 @@ try {
 }
 ```
 
+### `toUint8Array(value: TypedArray | ArrayBuffer | DataView): Uint8Array`
+
+Convert a value to a `Uint8Array` without copying its data.
+
+This can be useful for converting a `Buffer` to a pure `Uint8Array`. `Buffer` is already an `Uint8Array` subclass, but [`Buffer` alters some behavior](https://sindresorhus.com/blog/goodbye-nodejs-buffer), so it can be useful to cast it to a pure `Uint8Array` before returning it.
+
+Tip: If you want a copy, just call `.slice()` on the return value.
+
 ### `concatUint8Arrays(arrays: Uint8Array[], totalLength?: number): Uint8Array`
 
 Concatenate the given arrays into a new array.
