@@ -113,9 +113,11 @@ function assertString(value) {
 	}
 }
 
+const cachedEncoder = new globalThis.TextEncoder();
+
 export function stringToUint8Array(string) {
 	assertString(string);
-	return (new globalThis.TextEncoder()).encode(string);
+	return cachedEncoder.encode(string);
 }
 
 function base64ToBase64Url(base64) {
