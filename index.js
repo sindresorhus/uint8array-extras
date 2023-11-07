@@ -100,10 +100,11 @@ export function compareUint8Arrays(a, b) {
 
 	return 0;
 }
+const cachedDecoder = new globalThis.TextDecoder();
 
 export function uint8ArrayToString(array) {
 	assertUint8Array(array);
-	return (new globalThis.TextDecoder()).decode(array);
+	return cachedDecoder.decode(array);
 }
 
 function assertString(value) {
@@ -125,7 +126,7 @@ function base64UrlToBase64(base64url) {
 	return base64url.replaceAll('-', '+').replaceAll('_', '/');
 }
 
-export function uint8ArrayToBase64(array, {urlSafe = false} = {}) {
+export function uint8ArrayToBase64(array, { urlSafe = false } = {}) {
 	assertUint8Array(array);
 
 	// Required as `btoa` and `atob` don't properly support Unicode: https://developer.mozilla.org/en-US/docs/Glossary/Base64#the_unicode_problem
@@ -139,9 +140,9 @@ export function base64ToUint8Array(base64String) {
 	return Uint8Array.from(globalThis.atob(base64UrlToBase64(base64String)), x => x.codePointAt(0));
 }
 
-export function stringToBase64(string, {urlSafe = false} = {}) {
+export function stringToBase64(string, { urlSafe = false } = {}) {
 	assertString(string);
-	return uint8ArrayToBase64(stringToUint8Array(string), {urlSafe});
+	return uint8ArrayToBase64(stringToUint8Array(string), { urlSafe });
 }
 
 export function base64ToString(base64String) {
@@ -149,7 +150,7 @@ export function base64ToString(base64String) {
 	return uint8ArrayToString(base64ToUint8Array(base64String));
 }
 
-const byteToHexLookupTable = Array.from({length: 256}, (_, index) => index.toString(16).padStart(2, '0'));
+const byteToHexLookupTable = Array.from({ length: 256 }, (_, index) => index.toString(16).padStart(2, '0'));
 
 export function uint8ArrayToHex(array) {
 	assertUint8Array(array);
