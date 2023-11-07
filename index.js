@@ -1,7 +1,16 @@
 const objectToString = Object.prototype.toString;
+const uint8ArrayStringified = '[object Uint8Array]';
 
 export function isUint8Array(value) {
-	return value && objectToString.call(value) === '[object Uint8Array]';
+	if (!value) {
+		return false;
+	}
+
+	if (value.constructor === Uint8Array) {
+		return true;
+	}
+
+	return objectToString.call(value) === uint8ArrayStringified;
 }
 
 export function assertUint8Array(value) {
