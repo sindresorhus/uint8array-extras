@@ -128,11 +128,24 @@ function base64UrlToBase64(base64url) {
 	return base64url.replaceAll('-', '+').replaceAll('_', '/');
 }
 
+// reference: https://phuoc.ng/collection/this-vs-that/concat-vs-push/
+const MAX_BLOCK_SIZE = 65535;
+
 export function uint8ArrayToBase64(array, { urlSafe = false } = {}) {
 	assertUint8Array(array);
 
-	// Required as `btoa` and `atob` don't properly support Unicode: https://developer.mozilla.org/en-US/docs/Glossary/Base64#the_unicode_problem
-	const base64 = globalThis.btoa(String.fromCodePoint(...array));
+	let base64;
+
+	if (array.length < MAX_BLOCK_SIZE) {
+		// Required as `btoa` and `atob` don't properly support Unicode: https://developer.mozilla.org/en-US/docs/Glossary/Base64#the_unicode_problem
+		base64 = globalThis.btoa(String.fromCodePoint(...array));
+	} else {
+		base64 = '';
+		for (let value of array) {
+			base64 += String.fromCodePoint(value);
+		}
+		base64 = globalThis.btoa(base64);
+	}
 
 	return urlSafe ? base64ToBase64Url(base64) : base64;
 }
