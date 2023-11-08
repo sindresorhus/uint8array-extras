@@ -126,6 +126,12 @@ test('uint8ArrayToBase64 and base64ToUint8Array', t => {
 	t.deepEqual(base64ToUint8Array(base64), fixture);
 });
 
+test('should handle uint8ArrayToBase64 with 200k items', t => {
+	const fixture = stringToUint8Array('H'.repeat(200_000));
+	const base64 = uint8ArrayToBase64(fixture);
+	t.deepEqual(base64ToUint8Array(base64), fixture);
+});
+
 test('uint8ArrayToBase64 and base64ToUint8Array #2', t => {
 	const fixture = stringToUint8Array('a Ā 𐀀 文 🦄');
 	t.deepEqual(base64ToUint8Array(uint8ArrayToBase64(base64ToUint8Array(uint8ArrayToBase64(fixture)))), fixture);

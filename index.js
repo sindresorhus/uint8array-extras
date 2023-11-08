@@ -1,7 +1,16 @@
 const objectToString = Object.prototype.toString;
+const uint8ArrayStringified = '[object Uint8Array]';
 
 export function isUint8Array(value) {
-	return value && objectToString.call(value) === '[object Uint8Array]';
+	if (!value) {
+		return false;
+	}
+
+	if (value.constructor === Uint8Array) {
+		return true;
+	}
+
+	return objectToString.call(value) === uint8ArrayStringified;
 }
 
 export function assertUint8Array(value) {
@@ -92,9 +101,11 @@ export function compareUint8Arrays(a, b) {
 	return 0;
 }
 
+const cachedDecoder = new globalThis.TextDecoder();
+
 export function uint8ArrayToString(array) {
 	assertUint8Array(array);
-	return (new globalThis.TextDecoder()).decode(array);
+	return cachedDecoder.decode(array);
 }
 
 function assertString(value) {
@@ -103,9 +114,11 @@ function assertString(value) {
 	}
 }
 
+const cachedEncoder = new globalThis.TextEncoder();
+
 export function stringToUint8Array(string) {
 	assertString(string);
-	return (new globalThis.TextEncoder()).encode(string);
+	return cachedEncoder.encode(string);
 }
 
 function base64ToBase64Url(base64) {
@@ -116,11 +129,25 @@ function base64UrlToBase64(base64url) {
 	return base64url.replaceAll('-', '+').replaceAll('_', '/');
 }
 
+// Reference: https://phuoc.ng/collection/this-vs-that/concat-vs-push/
+const MAX_BLOCK_SIZE = 65_535;
+
 export function uint8ArrayToBase64(array, {urlSafe = false} = {}) {
 	assertUint8Array(array);
 
+	let base64;
+
+	if (array.length < MAX_BLOCK_SIZE) {
 	// Required as `btoa` and `atob` don't properly support Unicode: https://developer.mozilla.org/en-US/docs/Glossary/Base64#the_unicode_problem
-	const base64 = globalThis.btoa(String.fromCodePoint(...array));
+		base64 = globalThis.btoa(String.fromCodePoint.apply(this, array));
+	} else {
+		base64 = '';
+		for (const value of array) {
+			base64 += String.fromCodePoint(value);
+		}
+
+		base64 = globalThis.btoa(base64);
+	}
 
 	return urlSafe ? base64ToBase64Url(base64) : base64;
 }
