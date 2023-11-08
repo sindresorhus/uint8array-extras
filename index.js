@@ -100,6 +100,7 @@ export function compareUint8Arrays(a, b) {
 
 	return 0;
 }
+
 const cachedDecoder = new globalThis.TextDecoder();
 
 export function uint8ArrayToString(array) {
@@ -128,22 +129,23 @@ function base64UrlToBase64(base64url) {
 	return base64url.replaceAll('-', '+').replaceAll('_', '/');
 }
 
-// reference: https://phuoc.ng/collection/this-vs-that/concat-vs-push/
-const MAX_BLOCK_SIZE = 65535;
+// Reference: https://phuoc.ng/collection/this-vs-that/concat-vs-push/
+const MAX_BLOCK_SIZE = 65_535;
 
-export function uint8ArrayToBase64(array, { urlSafe = false } = {}) {
+export function uint8ArrayToBase64(array, {urlSafe = false} = {}) {
 	assertUint8Array(array);
 
 	let base64;
 
 	if (array.length < MAX_BLOCK_SIZE) {
 	// Required as `btoa` and `atob` don't properly support Unicode: https://developer.mozilla.org/en-US/docs/Glossary/Base64#the_unicode_problem
-	base64 = globalThis.btoa(String.fromCodePoint.apply(this, array));
+		base64 = globalThis.btoa(String.fromCodePoint.apply(this, array));
 	} else {
 		base64 = '';
-		for (let value of array) {
+		for (const value of array) {
 			base64 += String.fromCodePoint(value);
 		}
+
 		base64 = globalThis.btoa(base64);
 	}
 
@@ -155,9 +157,9 @@ export function base64ToUint8Array(base64String) {
 	return Uint8Array.from(globalThis.atob(base64UrlToBase64(base64String)), x => x.codePointAt(0));
 }
 
-export function stringToBase64(string, { urlSafe = false } = {}) {
+export function stringToBase64(string, {urlSafe = false} = {}) {
 	assertString(string);
-	return uint8ArrayToBase64(stringToUint8Array(string), { urlSafe });
+	return uint8ArrayToBase64(stringToUint8Array(string), {urlSafe});
 }
 
 export function base64ToString(base64String) {
@@ -165,7 +167,7 @@ export function base64ToString(base64String) {
 	return uint8ArrayToString(base64ToUint8Array(base64String));
 }
 
-const byteToHexLookupTable = Array.from({ length: 256 }, (_, index) => index.toString(16).padStart(2, '0'));
+const byteToHexLookupTable = Array.from({length: 256}, (_, index) => index.toString(16).padStart(2, '0'));
 
 export function uint8ArrayToHex(array) {
 	assertUint8Array(array);
