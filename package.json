@@ -1,6 +1,6 @@
 {
 	"name": "uint8array-extras",
-	"version": "0.5.0",
+	"version": "0.5.1",
 	"description": "Useful utilities for working with Uint8Array (and Buffer)",
 	"license": "MIT",
 	"repository": "sindresorhus/uint8array-extras",
@@ -19,7 +19,6 @@
 	"engines": {
 		"node": ">=18"
 	},
-	"sideEffects": false,
 	"scripts": {
 		"test": "xo && ava && tsc index.d.ts"
 	},
