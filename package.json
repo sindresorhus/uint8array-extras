@@ -46,8 +46,8 @@
 		"hexadecimal"
 	],
 	"devDependencies": {
-		"ava": "^5.3.1",
-		"typescript": "^5.2.2",
+		"ava": "^6.0.1",
+		"typescript": "^5.3.3",
 		"xo": "^0.56.0",
 		"benchmark": "2.1.4"
 	}
