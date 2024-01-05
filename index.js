@@ -79,26 +79,15 @@ export function compareUint8Arrays(a, b) {
 	const length = Math.min(a.length, b.length);
 
 	for (let index = 0; index < length; index++) {
-		if (a[index] < b[index]) {
-			return -1;
-		}
-
-		if (a[index] > b[index]) {
-			return 1;
+		const diff = a[index] - b[index];
+		if (diff) {
+			return Math.sign(diff);
 		}
 	}
 
 	// At this point, all the compared elements are equal.
 	// The shorter array should come first if the arrays are of different lengths.
-	if (a.length > b.length) {
-		return 1;
-	}
-
-	if (a.length < b.length) {
-		return -1;
-	}
-
-	return 0;
+	return Math.sign(a.length - b.length);
 }
 
 const cachedDecoder = new globalThis.TextDecoder();
