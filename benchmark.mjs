@@ -18,6 +18,7 @@ import {
 
 const oneMb = 1024 * 1024;
 const largeUint8Array = new Uint8Array(randomBytes(oneMb).buffer);
+// eslint-disable-next-line unicorn/prefer-spread
 const largeUint8ArrayDup = largeUint8Array.slice();
 const textFromUint8Array = uint8ArrayToString(largeUint8Array);
 const base64FromUint8Array = Buffer.from(textFromUint8Array).toString('base64');
