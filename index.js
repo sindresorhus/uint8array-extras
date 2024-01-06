@@ -80,7 +80,7 @@ export function compareUint8Arrays(a, b) {
 
 	for (let index = 0; index < length; index++) {
 		const diff = a[index] - b[index];
-		if (diff) {
+		if (diff !== 0) {
 			return Math.sign(diff);
 		}
 	}
