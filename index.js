@@ -231,7 +231,7 @@ export function asciiStringToUint8Array(string) {
 		if (code > 127) {
 			throw new Error(`Non-ASCII character detected at position ${i}`);
 		}
-		
+
 		bytes[i] = code;
 	}
 
