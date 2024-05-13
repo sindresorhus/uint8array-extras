@@ -223,16 +223,16 @@ export function hexToUint8Array(hexString) {
 
 export function asciiStringToUint8Array(string) {
 	assertString(string);
-  
+
 	const bytes = new Uint8Array(string.length);
-  
+
 	for (let i = 0; i < string.length; i++) {
-	  const code = string.charCodeAt(i);
-	  if (code > 127) {
-		throw new Error(`Non-ASCII character detected at position ${i}`);
-	  }
-	  bytes[i] = code;
+		const code = string.charCodeAt(i);
+		if (code > 127) {
+			throw new Error(`Non-ASCII character detected at position ${i}`);
+		}
+		bytes[i] = code;
 	}
-  
+
 	return bytes;
 }
