@@ -249,3 +249,16 @@ console.log(hexToUint8Array('48656c6c6f'));
 ```
 */
 export function hexToUint8Array(hexString: string): Uint8Array;
+
+/**
+Convert a string to a `Uint8Array` using ASCII encoding.
+
+@example
+```
+import { asciiStringToUint8Array } from 'uint8array-extras';
+
+console.log(asciiStringToUint8Array('Hello'));
+//=> Uint8Array [72, 101, 108, 108, 111]
+```
+*/
+export function asciiStringToUint8Array(string: string): Uint8Array;
