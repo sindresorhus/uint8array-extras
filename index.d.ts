@@ -121,7 +121,7 @@ const array3 = new Uint8Array([7, 8, 9]);
 export function compareUint8Arrays(a: Uint8Array, b: Uint8Array): 0 | 1 | -1;
 
 /**
-Convert a `Uint8Array` (containing a UTF-8 string) to a string.
+Convert a `Uint8Array` to a string using an optional encoding (defaults to UTF-8).
 
 Replacement for [`Buffer#toString()`](https://nodejs.org/api/buffer.html#buftostringencoding-start-end).
 
@@ -135,7 +135,7 @@ console.log(uint8ArrayToString(byteArray));
 //=> 'Hello'
 ```
 */
-export function uint8ArrayToString(array: Uint8Array): string;
+export function uint8ArrayToString(array: Uint8Array, encoding?: string): string;
 
 /**
 Convert a string to a `Uint8Array` (using UTF-8 encoding).
@@ -249,3 +249,17 @@ console.log(hexToUint8Array('48656c6c6f'));
 ```
 */
 export function hexToUint8Array(hexString: string): Uint8Array;
+
+/**
+Get up to a 48-bit integer from a DataView`
+
+Replacement for [`Buffer#readUintBE`](https://nodejs.org/api/buffer.html#bufreadintbeoffset-bytelength)
+*/
+export function getUintBE(view: DataView): number; // eslint-disable-line @typescript-eslint/naming-convention
+
+/**
+ * Find a sequence of bytes in an array buffer
+ *
+ * Replacement for [`Buffer#indexOf`](https://nodejs.org/api/buffer.html#bufindexofvalue-byteoffset-encoding)
+ */
+export function findSequence(arrayBuffer: ArrayBuffer, sequence: Uint8Array): number;
