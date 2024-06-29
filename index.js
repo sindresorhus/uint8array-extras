@@ -90,11 +90,14 @@ export function compareUint8Arrays(a, b) {
 	return Math.sign(a.length - b.length);
 }
 
-const cachedDecoder = new globalThis.TextDecoder();
+const cachedDecoders = {
+	utf8: new globalThis.TextDecoder('utf8'),
+};
 
-export function uint8ArrayToString(array) {
+export function uint8ArrayToString(array, encoding = 'utf8') {
 	assertUint8Array(array);
-	return cachedDecoder.decode(array);
+	cachedDecoders[encoding] ??= new globalThis.TextDecoder(encoding);
+	return cachedDecoders[encoding].decode(array);
 }
 
 function assertString(value) {
@@ -219,4 +222,64 @@ export function hexToUint8Array(hexString) {
 	}
 
 	return bytes;
+}
+
+/**
+@param {DataView} view
+@returns {number}
+*/
+export function getUintBE(view) {
+	const {byteLength} = view;
+
+	if (byteLength === 6) {
+		return (view.getUint16(0) * (2 ** 32)) + view.getUint32(2);
+	}
+
+	if (byteLength === 5) {
+		return (view.getUint8(0) * (2 ** 32)) + view.getUint32(1);
+	}
+
+	if (byteLength === 4) {
+		return view.getUint32(0);
+	}
+
+	if (byteLength === 3) {
+		return (view.getUint8(0) * (2 ** 16)) + view.getUint16(1);
+	}
+
+	if (byteLength === 2) {
+		return view.getUint16(0);
+	}
+
+	if (byteLength === 1) {
+		return view.getUint8(0);
+	}
+}
+
+/**
+@param {Uint8Array} array
+@param {Uint8Array} value
+@returns {number}
+*/
+export function findSequence(array, value) {
+	const valueLength = value.length;
+	const validOffsetLength = array.length - valueLength;
+
+	for (let i = 0; i < validOffsetLength; i += 1) {
+		let match = true;
+
+		for (let j = 0; j < valueLength; j += 1) {
+			if (array[i + j] !== value[j]) {
+				match = false;
+				j = 0;
+				break;
+			}
+		}
+
+		if (match) {
+			return i;
+		}
+	}
+
+	return -1;
 }

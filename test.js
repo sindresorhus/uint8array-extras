@@ -14,6 +14,8 @@ import {
 	base64ToString,
 	uint8ArrayToHex,
 	hexToUint8Array,
+	getUintBE,
+	findSequence,
 } from './index.js';
 
 test('isUint8Array', t => {
@@ -119,6 +121,20 @@ test('stringToUint8Array and uint8ArrayToString', t => {
 	t.is(uint8ArrayToString(array), fixture);
 });
 
+test('uint8ArrayToString with encoding', t => {
+	t.is(uint8ArrayToString(new Uint8Array([
+		207, 240, 232, 226, 229, 242, 44, 32, 236, 232, 240, 33,
+	]), 'windows-1251'), 'Привет, мир!');
+
+	t.is(uint8ArrayToString(new Uint8Array([
+		167, 65, 166, 110,
+	]), 'big5'), '你好');
+
+	t.is(uint8ArrayToString(new Uint8Array([
+		130, 177, 130, 241, 130, 201, 130, 191, 130, 205,
+	]), 'shift-jis'), 'こんにちは');
+});
+
 test('uint8ArrayToBase64 and base64ToUint8Array', t => {
 	const fixture = stringToUint8Array('Hello');
 	const base64 = uint8ArrayToBase64(fixture);
@@ -157,4 +173,26 @@ test('hexToUint8Array', t => {
 	const fixtureString = 'Hello - a Ā 𐀀 文 🦄';
 	const fixtureHex = Buffer.from(fixtureString).toString('hex'); // eslint-disable-line n/prefer-global/buffer
 	t.deepEqual(hexToUint8Array(fixtureHex), new Uint8Array(Buffer.from(fixtureHex, 'hex'))); // eslint-disable-line n/prefer-global/buffer
+});
+
+test('getUintBE', t => {
+	const fixture = [0x12, 0x34, 0x56, 0x78, 0x90, 0xab]; // eslint-disable-line unicorn/number-literal-case
+
+	for (let i = 1; i < 6; i += 1) {
+		t.is(getUintBE(new DataView(new Uint8Array(fixture).buffer, 0, i)), Buffer.from(fixture).readUintBE(0, i)); // eslint-disable-line n/prefer-global/buffer
+	}
+
+	for (let i = 0; i < 5; i += 1) {
+		t.is(getUintBE(new DataView(new Uint8Array(fixture).buffer, i, 6 - i)), Buffer.from(fixture).readUintBE(i, 6 - i)); // eslint-disable-line n/prefer-global/buffer
+	}
+});
+
+test('indexOf', t => {
+	const fixture = [0x12, 0x34, 0x56, 0x78, 0x90, 0xab, 0xcd, 0xef]; // eslint-disable-line unicorn/number-literal-case
+	const sequence = [0x78, 0x90];
+	t.is(findSequence(new Uint8Array(fixture), new Uint8Array(sequence)), Buffer.from(fixture).indexOf(Buffer.from(sequence))); // eslint-disable-line n/prefer-global/buffer
+	t.is(findSequence(new Uint8Array(fixture), new Uint8Array(sequence)), 3);
+	t.is(findSequence(new Uint8Array(fixture), new Uint8Array([0x00, 0x01])), -1);
+	// Uint8Array only works with a number so it cannot replace Buffer.indexOf
+	t.not(new Uint8Array(fixture).indexOf(new Uint8Array(sequence)), Buffer.from(fixture).indexOf(Buffer.from(sequence))); // eslint-disable-line n/prefer-global/buffer
 });
