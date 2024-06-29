@@ -121,14 +121,11 @@ const array3 = new Uint8Array([7, 8, 9]);
 export function compareUint8Arrays(a: Uint8Array, b: Uint8Array): 0 | 1 | -1;
 
 /**
-Convert a `Uint8Array` to a utf8 string, the encoding provided indicates which encoding to convert from.
+Convert a `Uint8Array` to a string.
 
-There is a large list of [supported encodings](https://developer.mozilla.org/en-US/docs/Web/API/Encoding_API/Encodings)
-that are different from the original implementation.
+@param encoding - The [encoding](https://developer.mozilla.org/en-US/docs/Web/API/Encoding_API/Encodings) to convert from. Default: `'utf8'`
 
-Please note that `latin1` should be used instead of `binary` and `utf-16le` instead of `utf16le`.
-
-Replacement for [`Buffer#toString()`](https://nodejs.org/api/buffer.html#buftostringencoding-start-end).
+Replacement for [`Buffer#toString()`](https://nodejs.org/api/buffer.html#buftostringencoding-start-end). For the `encoding` parameter, `latin1` should be used instead of `binary` and `utf-16le` instead of `utf16le`.
 
 @example
 ```
