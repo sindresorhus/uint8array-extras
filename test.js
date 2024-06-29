@@ -187,7 +187,7 @@ test('getUintBE', t => {
 	}
 });
 
-test('findSequence', t => {
+test('indexOf', t => {
 	const fixture = [0x12, 0x34, 0x56, 0x78, 0x90, 0xab, 0xcd, 0xef]; // eslint-disable-line unicorn/number-literal-case
 	const sequence = [0x78, 0x90];
 	t.is(findSequence(new Uint8Array(fixture), new Uint8Array(sequence)), Buffer.from(fixture).indexOf(Buffer.from(sequence))); // eslint-disable-line n/prefer-global/buffer
