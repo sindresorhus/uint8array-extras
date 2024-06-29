@@ -132,7 +132,7 @@ const array3 = new Uint8Array([7, 8, 9]);
 
 ### `uint8ArrayToString(array: Uint8Array, encoding?: string): string`
 
-Convert a `Uint8Array` (containing a UTF-8 string) to a string.
+Convert a `Uint8Array` to a utf8 string, the encoding provided indicates which encoding to convert from.
 
 There is a large list of [supported encodings](https://developer.mozilla.org/en-US/docs/Web/API/Encoding_API/Encodings)
 that are different from the original Buffer method.
@@ -270,7 +270,7 @@ console.log(getUintBE(new DataView(byteArray.buffer)));
 ```
 
 ### `indexOf(array: Uint8Array, value: Uint8Array): number`
-Find a sequence of bytes in an array buffer.
+Returns the index of the specified sequence of bytes within the provided array buffer.
 
 Uint8Array.indexOf only takes a number which is different from Buffer's indexOf implementation.
 

@@ -121,7 +121,7 @@ const array3 = new Uint8Array([7, 8, 9]);
 export function compareUint8Arrays(a: Uint8Array, b: Uint8Array): 0 | 1 | -1;
 
 /**
-Convert a `Uint8Array` to a string using an optional encoding (defaults to UTF-8).
+Convert a `Uint8Array` to a utf8 string, the encoding provided indicates which encoding to convert from.
 
 There is a large list of [supported encodings](https://developer.mozilla.org/en-US/docs/Web/API/Encoding_API/Encodings)
 that are different from the original implementation.
@@ -278,7 +278,7 @@ console.log(getUintBE(new DataView(byteArray.buffer)));
 export function getUintBE(view: DataView): number; // eslint-disable-line @typescript-eslint/naming-convention
 
 /**
-Find a sequence of bytes in an array buffer.
+Returns the index of the specified sequence of bytes within the provided array buffer.
 
 Uint8Array.indexOf only takes a number which is different from Buffer's indexOf implementation.
 
