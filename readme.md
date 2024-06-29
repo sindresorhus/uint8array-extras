@@ -132,14 +132,11 @@ const array3 = new Uint8Array([7, 8, 9]);
 
 ### `uint8ArrayToString(array: Uint8Array, encoding?: string): string`
 
-Convert a `Uint8Array` to a utf8 string, the encoding provided indicates which encoding to convert from.
+Convert a `Uint8Array` to a string
 
-There is a large list of [supported encodings](https://developer.mozilla.org/en-US/docs/Web/API/Encoding_API/Encodings)
-that are different from the original Buffer method.
+- Parameter: `encoding` - The [encoding](https://developer.mozilla.org/en-US/docs/Web/API/Encoding_API/Encodings) to convert from.
 
-Please note that `latin1` should be used instead of `binary` and `utf-16le` instead of `utf16le` or `ucs2`.
-
-Replacement for [`Buffer#toString()`](https://nodejs.org/api/buffer.html#buftostringencoding-start-end).
+Replacement for [`Buffer#toString()`](https://nodejs.org/api/buffer.html#buftostringencoding-start-end). For the `encoding` parameter, `latin1` should be used instead of `binary` and `utf-16le` instead of `utf16le`.
 
 ```js
 import {uint8ArrayToString} from 'uint8array-extras';
