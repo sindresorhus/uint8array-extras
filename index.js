@@ -261,23 +261,31 @@ export function getUintBE(view) {
 @param {Uint8Array} value
 @returns {number}
 */
-export function findSequence(array, value) {
+export function indexOf(array, value) {
+	const arrayLength = array.length;
 	const valueLength = value.length;
-	const validOffsetLength = array.length - valueLength;
 
-	for (let i = 0; i < validOffsetLength; i += 1) {
-		let match = true;
+	if (valueLength === 0) {
+		return -1;
+	}
 
-		for (let j = 0; j < valueLength; j += 1) {
-			if (array[i + j] !== value[j]) {
-				match = false;
-				j = 0;
+	if (valueLength > arrayLength) {
+		return -1;
+	}
+
+	const validOffsetLength = arrayLength - valueLength;
+
+	for (let index = 0; index <= validOffsetLength; index++) {
+		let isMatch = true;
+		for (let index2 = 0; index2 < valueLength; index2++) {
+			if (array[index + index2] !== value[index2]) {
+				isMatch = false;
 				break;
 			}
 		}
 
-		if (match) {
-			return i;
+		if (isMatch) {
+			return index;
 		}
 	}
 

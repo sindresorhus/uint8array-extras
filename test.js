@@ -15,7 +15,7 @@ import {
 	uint8ArrayToHex,
 	hexToUint8Array,
 	getUintBE,
-	findSequence,
+	indexOf,
 } from './index.js';
 
 test('isUint8Array', t => {
@@ -178,21 +178,53 @@ test('hexToUint8Array', t => {
 test('getUintBE', t => {
 	const fixture = [0x12, 0x34, 0x56, 0x78, 0x90, 0xab]; // eslint-disable-line unicorn/number-literal-case
 
-	for (let i = 1; i < 6; i += 1) {
-		t.is(getUintBE(new DataView(new Uint8Array(fixture).buffer, 0, i)), Buffer.from(fixture).readUintBE(0, i)); // eslint-disable-line n/prefer-global/buffer
+	for (let index = 1; index < 6; index += 1) {
+		t.is(getUintBE(new DataView(new Uint8Array(fixture).buffer, 0, index)), Buffer.from(fixture).readUintBE(0, index)); // eslint-disable-line n/prefer-global/buffer
 	}
 
-	for (let i = 0; i < 5; i += 1) {
-		t.is(getUintBE(new DataView(new Uint8Array(fixture).buffer, i, 6 - i)), Buffer.from(fixture).readUintBE(i, 6 - i)); // eslint-disable-line n/prefer-global/buffer
+	for (let index = 0; index < 5; index += 1) {
+		t.is(getUintBE(new DataView(new Uint8Array(fixture).buffer, index, 6 - index)), Buffer.from(fixture).readUintBE(index, 6 - index)); // eslint-disable-line n/prefer-global/buffer
 	}
 });
 
-test('indexOf', t => {
+test('indexOf - sequence found in the middle', t => {
 	const fixture = [0x12, 0x34, 0x56, 0x78, 0x90, 0xab, 0xcd, 0xef]; // eslint-disable-line unicorn/number-literal-case
 	const sequence = [0x78, 0x90];
-	t.is(findSequence(new Uint8Array(fixture), new Uint8Array(sequence)), Buffer.from(fixture).indexOf(Buffer.from(sequence))); // eslint-disable-line n/prefer-global/buffer
-	t.is(findSequence(new Uint8Array(fixture), new Uint8Array(sequence)), 3);
-	t.is(findSequence(new Uint8Array(fixture), new Uint8Array([0x00, 0x01])), -1);
-	// Uint8Array only works with a number so it cannot replace Buffer.indexOf
-	t.not(new Uint8Array(fixture).indexOf(new Uint8Array(sequence)), Buffer.from(fixture).indexOf(Buffer.from(sequence))); // eslint-disable-line n/prefer-global/buffer
+	t.is(indexOf(new Uint8Array(fixture), new Uint8Array(sequence)), 3);
+});
+
+test('indexOf - sequence found at the end', t => {
+	const fixture2 = [0x12, 0x34, 0x56, 0x78, 0x90, 0xab]; // eslint-disable-line unicorn/number-literal-case
+	const sequence2 = [0x90, 0xab]; // eslint-disable-line unicorn/number-literal-case
+	t.is(indexOf(new Uint8Array(fixture2), new Uint8Array(sequence2)), 4);
+});
+
+test('indexOf - sequence not found', t => {
+	const fixture = [0x12, 0x34, 0x56, 0x78, 0x90, 0xab, 0xcd, 0xef]; // eslint-disable-line unicorn/number-literal-case
+	t.is(indexOf(new Uint8Array(fixture), new Uint8Array([0x00, 0x01])), -1);
+});
+
+test('indexOf - sequence found at the beginning', t => {
+	const fixture = [0x12, 0x34, 0x56, 0x78, 0x90, 0xab, 0xcd, 0xef]; // eslint-disable-line unicorn/number-literal-case
+	const sequence3 = [0x12, 0x34];
+	t.is(indexOf(new Uint8Array(fixture), new Uint8Array(sequence3)), 0);
+});
+
+test('indexOf - sequence is the entire array', t => {
+	const fixture = [0x12, 0x34, 0x56, 0x78, 0x90, 0xab, 0xcd, 0xef]; // eslint-disable-line unicorn/number-literal-case
+	const sequence4 = [0x12, 0x34, 0x56, 0x78, 0x90, 0xab, 0xcd, 0xef]; // eslint-disable-line unicorn/number-literal-case
+	t.is(indexOf(new Uint8Array(fixture), new Uint8Array(sequence4)), 0);
+});
+
+test('indexOf - empty array as sequence', t => {
+	const fixture = [0x12, 0x34, 0x56, 0x78, 0x90, 0xab, 0xcd, 0xef]; // eslint-disable-line unicorn/number-literal-case
+	const emptyArray = [];
+	t.is(indexOf(new Uint8Array(emptyArray), new Uint8Array([0x78, 0x90])), -1);
+	t.is(indexOf(new Uint8Array(fixture), new Uint8Array(emptyArray)), -1);
+});
+
+test('indexOf - single element found', t => {
+	const fixture = [0x12, 0x34, 0x56, 0x78, 0x90, 0xab, 0xcd, 0xef]; // eslint-disable-line unicorn/number-literal-case
+	const singleElement = [0x56];
+	t.is(indexOf(new Uint8Array(fixture), new Uint8Array(singleElement)), 2);
 });
