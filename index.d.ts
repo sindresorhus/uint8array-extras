@@ -277,7 +277,7 @@ console.log(getUintBE(new DataView(byteArray.buffer)));
 export function getUintBE(view: DataView): number; // eslint-disable-line @typescript-eslint/naming-convention
 
 /**
-Finds the index of the first occurrence of the given sequence of bytes (`value`) within the given `Uint8Array` (`array`).
+Find the index of the first occurrence of the given sequence of bytes (`value`) within the given `Uint8Array` (`array`).
 
 Replacement for [`Buffer#indexOf`](https://nodejs.org/api/buffer.html#bufindexofvalue-byteoffset-encoding). `Uint8Array#indexOf` only takes a number which is different from Buffer's `indexOf` implementation.
 
