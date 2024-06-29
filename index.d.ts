@@ -264,6 +264,7 @@ Read `DataView#byteLength` number of bytes from the given view, up to 48-bit.
 
 Replacement for [`Buffer#readUintBE`](https://nodejs.org/api/buffer.html#bufreadintbeoffset-bytelength)
 
+@example
 ```
 import {getUintBE} from 'uint8array-extras';
 
@@ -280,6 +281,7 @@ Finds the index of the first occurrence of the given sequence of bytes (`value`)
 
 Replacement for [`Buffer#indexOf`](https://nodejs.org/api/buffer.html#bufindexofvalue-byteoffset-encoding). `Uint8Array#indexOf` only takes a number which is different from Buffer's `indexOf` implementation.
 
+@example
 ```
 import {indexOf} from 'uint8array-extras';
 
