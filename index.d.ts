@@ -123,6 +123,11 @@ export function compareUint8Arrays(a: Uint8Array, b: Uint8Array): 0 | 1 | -1;
 /**
 Convert a `Uint8Array` to a string using an optional encoding (defaults to UTF-8).
 
+There is a large list of [supported encodings](https://developer.mozilla.org/en-US/docs/Web/API/Encoding_API/Encodings)
+that are different from the original implementation.
+
+Please note that `latin1` should be used instead of `binary` and `utf-16le` instead of `utf16le`.
+
 Replacement for [`Buffer#toString()`](https://nodejs.org/api/buffer.html#buftostringencoding-start-end).
 
 @example
@@ -130,9 +135,16 @@ Replacement for [`Buffer#toString()`](https://nodejs.org/api/buffer.html#buftost
 import {uint8ArrayToString} from 'uint8array-extras';
 
 const byteArray = new Uint8Array([72, 101, 108, 108, 111]);
-
 console.log(uint8ArrayToString(byteArray));
 //=> 'Hello'
+
+const zh = new Uint8Array([167, 65, 166, 110]);
+console.log(uint8ArrayToString(zh, 'big5'));
+//=> '你好'
+
+const ja = new Uint8Array([130, 177, 130, 241, 130, 201, 130, 191, 130, 205]);
+console.log(uint8ArrayToString(ja, 'shift-jis'));
+//=> 'こんにちは'
 ```
 */
 export function uint8ArrayToString(array: Uint8Array, encoding?: string): string;
@@ -251,15 +263,33 @@ console.log(hexToUint8Array('48656c6c6f'));
 export function hexToUint8Array(hexString: string): Uint8Array;
 
 /**
-Get up to a 48-bit integer from a DataView`
+Read DataView#byteLength number of bytes from the given view, up to 48-bit.
 
 Replacement for [`Buffer#readUintBE`](https://nodejs.org/api/buffer.html#bufreadintbeoffset-bytelength)
+
+```js
+import {getUintBE} from 'uint8array-extras';
+
+const byteArray = new Uint8Array([0x12, 0x34, 0x56, 0x78, 0x90, 0xab]);
+console.log(getUintBE(new DataView(byteArray.buffer)));
+//=> 20015998341291
+```
 */
 export function getUintBE(view: DataView): number; // eslint-disable-line @typescript-eslint/naming-convention
 
 /**
- * Find a sequence of bytes in an array buffer
- *
- * Replacement for [`Buffer#indexOf`](https://nodejs.org/api/buffer.html#bufindexofvalue-byteoffset-encoding)
- */
-export function findSequence(arrayBuffer: ArrayBuffer, sequence: Uint8Array): number;
+Find a sequence of bytes in an array buffer.
+
+Uint8Array.indexOf only takes a number which is different from Buffer's indexOf implementation.
+
+Replacement for [`Buffer#indexOf`](https://nodejs.org/api/buffer.html#bufindexofvalue-byteoffset-encoding)
+
+```js
+import {indexOf} from 'uint8array-extras';
+
+const byteArray = new Uint8Array([0x12, 0x34, 0x56, 0x78, 0x90, 0xab, 0xcd, 0xef]);
+console.log(indexOf(byteArray, new Uint8Array([0x78, 0x90])));
+//=> 3
+```
+*/
+export function indexOf(array: Uint8Array, value: Uint8Array): number;

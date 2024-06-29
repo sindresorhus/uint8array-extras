@@ -225,9 +225,9 @@ export function hexToUint8Array(hexString) {
 }
 
 /**
- * @param {DataView} view
- * @returns {number}
- */
+@param {DataView} view
+@returns {number}
+*/
 export function getUintBE(view) {
 	const {byteLength} = view;
 
@@ -257,19 +257,19 @@ export function getUintBE(view) {
 }
 
 /**
- * @param {Uint8Array} arrayBuffer
- * @param {Uint8Array} sequence
- * @returns {number}
- */
-export function findSequence(arrayBuffer, sequence) {
-	const sequenceLength = sequence.length;
-	const validOffsetLength = arrayBuffer.length - sequenceLength;
+@param {Uint8Array} array
+@param {Uint8Array} value
+@returns {number}
+*/
+export function findSequence(array, value) {
+	const valueLength = value.length;
+	const validOffsetLength = array.length - valueLength;
 
 	for (let i = 0; i < validOffsetLength; i += 1) {
 		let match = true;
 
-		for (let j = 0; j < sequenceLength; j += 1) {
-			if (arrayBuffer[i + j] !== sequence[j]) {
+		for (let j = 0; j < valueLength; j += 1) {
+			if (array[i + j] !== value[j]) {
 				match = false;
 				j = 0;
 				break;

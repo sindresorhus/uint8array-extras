@@ -125,6 +125,14 @@ test('uint8ArrayToString with encoding', t => {
 	t.is(uint8ArrayToString(new Uint8Array([
 		207, 240, 232, 226, 229, 242, 44, 32, 236, 232, 240, 33,
 	]), 'windows-1251'), 'Привет, мир!');
+
+	t.is(uint8ArrayToString(new Uint8Array([
+		167, 65, 166, 110,
+	]), 'big5'), '你好');
+
+	t.is(uint8ArrayToString(new Uint8Array([
+		130, 177, 130, 241, 130, 201, 130, 191, 130, 205,
+	]), 'shift-jis'), 'こんにちは');
 });
 
 test('uint8ArrayToBase64 and base64ToUint8Array', t => {
