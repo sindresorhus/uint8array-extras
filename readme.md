@@ -254,7 +254,8 @@ console.log(hexToUint8Array('48656c6c6f'));
 ```
 
 ### `getUintBE(view: DataView): number`
-Read DataView#byteLength number of bytes from the given view, up to 48-bit.
+
+Read `DataView#byteLength` number of bytes from the given view, up to 48-bit.
 
 Replacement for [`Buffer#readUintBE`](https://nodejs.org/api/buffer.html#bufreadintbeoffset-bytelength)
 
@@ -262,21 +263,22 @@ Replacement for [`Buffer#readUintBE`](https://nodejs.org/api/buffer.html#bufread
 import {getUintBE} from 'uint8array-extras';
 
 const byteArray = new Uint8Array([0x12, 0x34, 0x56, 0x78, 0x90, 0xab]);
+
 console.log(getUintBE(new DataView(byteArray.buffer)));
 //=> 20015998341291
 ```
 
 ### `indexOf(array: Uint8Array, value: Uint8Array): number`
-Returns the index of the specified sequence of bytes within the provided array buffer.
 
-Uint8Array.indexOf only takes a number which is different from Buffer's indexOf implementation.
+Finds the index of the first occurrence of the given sequence of bytes (`value`) within the given `Uint8Array` (`array`).
 
-Replacement for [`Buffer#indexOf`](https://nodejs.org/api/buffer.html#bufindexofvalue-byteoffset-encoding)
+Replacement for [`Buffer#indexOf`](https://nodejs.org/api/buffer.html#bufindexofvalue-byteoffset-encoding). `Uint8Array#indexOf` only takes a number which is different from Buffer's `indexOf` implementation.
 
 ```js
 import {indexOf} from 'uint8array-extras';
 
 const byteArray = new Uint8Array([0x12, 0x34, 0x56, 0x78, 0x90, 0xab, 0xcd, 0xef]);
+
 console.log(indexOf(byteArray, new Uint8Array([0x78, 0x90])));
 //=> 3
 ```
