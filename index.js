@@ -291,3 +291,10 @@ export function indexOf(array, value) {
 
 	return -1;
 }
+
+/**
+@param {Uint8Array} array
+@param {Uint8Array} value
+@returns {boolean}
+*/
+export const includes = (array, value) => indexOf(array, value) !== -1;
