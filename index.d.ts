@@ -292,3 +292,21 @@ console.log(indexOf(byteArray, new Uint8Array([0x78, 0x90])));
 ```
 */
 export function indexOf(array: Uint8Array, value: Uint8Array): number;
+
+/**
+Checks if the given sequence of bytes (`value`) is within the given `Uint8Array` (`array`).
+
+Returns true if the value is included, otherwise false.
+
+Replacement for [`Buffer#includes`](https://nodejs.org/api/buffer.html#bufincludesvalue-byteoffset-encoding). `Uint8Array#includes` only takes a number which is different from Buffer's `includes` implementation.
+
+```
+import {includes} from 'uint8array-extras';
+
+const byteArray = new Uint8Array([0x12, 0x34, 0x56, 0x78, 0x90, 0xab, 0xcd, 0xef]);
+
+console.log(includes(byteArray, new Uint8Array([0x78, 0x90])));
+//=> true
+```
+*/
+export function includes(array: Uint8Array, value: Uint8Array): boolean;

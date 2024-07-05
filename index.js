@@ -291,3 +291,12 @@ export function indexOf(array, value) {
 
 	return -1;
 }
+
+/**
+@param {Uint8Array} array
+@param {Uint8Array} value
+@returns {boolean}
+*/
+export function includes(array, value) {
+	return indexOf(array, value) !== -1;
+}
