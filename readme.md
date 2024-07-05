@@ -285,7 +285,7 @@ console.log(indexOf(byteArray, new Uint8Array([0x78, 0x90])));
 
 ### `includes(array: Uint8Array, value: Uint8Array): boolean`
 
-Checks if the given sequence of bytes (`value`) within the given `Uint8Array` (`array`).
+Checks if the given sequence of bytes (`value`) is within the given `Uint8Array` (`array`).
 
 Returns true if the value is included, otherwise false.
 
