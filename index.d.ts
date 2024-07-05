@@ -300,7 +300,7 @@ Returns true if the value is included, otherwise false.
 
 Replacement for [`Buffer#includes`](https://nodejs.org/api/buffer.html#bufincludesvalue-byteoffset-encoding). `Uint8Array#includes` only takes a number which is different from Buffer's `includes` implementation.
 
-```js
+```
 import {includes} from 'uint8array-extras';
 
 const byteArray = new Uint8Array([0x12, 0x34, 0x56, 0x78, 0x90, 0xab, 0xcd, 0xef]);
