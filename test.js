@@ -136,6 +136,11 @@ test('uint8ArrayToString with encoding', t => {
 	]), 'shift-jis'), 'こんにちは');
 });
 
+test('uint8ArrayToString with ArrayBuffer', t => {
+	const fixture = new Uint8Array([72, 101, 108, 108, 111]).buffer;
+	t.is(uint8ArrayToString(fixture), 'Hello');
+});
+
 test('uint8ArrayToBase64 and base64ToUint8Array', t => {
 	const fixture = stringToUint8Array('Hello');
 	const base64 = uint8ArrayToBase64(fixture);

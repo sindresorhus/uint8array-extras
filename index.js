@@ -1,21 +1,40 @@
 const objectToString = Object.prototype.toString;
 const uint8ArrayStringified = '[object Uint8Array]';
+const arrayBufferStringified = '[object ArrayBuffer]';
 
-export function isUint8Array(value) {
+function isType(value, typeConstructor, typeStringified) {
 	if (!value) {
 		return false;
 	}
 
-	if (value.constructor === Uint8Array) {
+	if (value.constructor === typeConstructor) {
 		return true;
 	}
 
-	return objectToString.call(value) === uint8ArrayStringified;
+	return objectToString.call(value) === typeStringified;
+}
+
+export function isUint8Array(value) {
+	return isType(value, Uint8Array, uint8ArrayStringified);
+}
+
+function isArrayBuffer(value) {
+	return isType(value, ArrayBuffer, arrayBufferStringified);
+}
+
+function isUint8ArrayOrArrayBuffer(value) {
+	return isUint8Array(value) || isArrayBuffer(value);
 }
 
 export function assertUint8Array(value) {
 	if (!isUint8Array(value)) {
 		throw new TypeError(`Expected \`Uint8Array\`, got \`${typeof value}\``);
+	}
+}
+
+export function assertUint8ArrayOrArrayBuffer(value) {
+	if (!isUint8ArrayOrArrayBuffer(value)) {
+		throw new TypeError(`Expected \`Uint8Array\` or \`ArrayBuffer\`, got \`${typeof value}\``);
 	}
 }
 
@@ -95,7 +114,7 @@ const cachedDecoders = {
 };
 
 export function uint8ArrayToString(array, encoding = 'utf8') {
-	assertUint8Array(array);
+	assertUint8ArrayOrArrayBuffer(array);
 	cachedDecoders[encoding] ??= new globalThis.TextDecoder(encoding);
 	return cachedDecoders[encoding].decode(array);
 }

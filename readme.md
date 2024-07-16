@@ -130,7 +130,7 @@ const array3 = new Uint8Array([7, 8, 9]);
 //=> [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 ```
 
-### `uint8ArrayToString(array: Uint8Array, encoding?: string = 'utf8'): string`
+### `uint8ArrayToString(array: Uint8Array | ArrayBuffer, encoding?: string = 'utf8'): string`
 
 Convert a `Uint8Array` to a string.
 
