@@ -77,7 +77,7 @@ console.log(concatUint8Arrays([a, b]));
 //=> Uint8Array [1, 2, 3, 4, 5, 6]
 ```
 */
-export function concatUint8Arrays(arrays: Uint8Array[], totalLength?: number): Uint8Array;
+export function concatUint8Arrays(arrays: Uint8Array[], totalLength?: number): Uint8Array<ArrayBuffer>;
 
 /**
 Check if two arrays are identical by verifying that they contain the same bytes in the same sequence.
@@ -159,7 +159,7 @@ console.log(stringToUint8Array('Hello'));
 //=> Uint8Array [72, 101, 108, 108, 111]
 ```
 */
-export function stringToUint8Array(string: string): Uint8Array;
+export function stringToUint8Array(string: string): Uint8Array<ArrayBuffer>;
 
 /**
 Convert a `Uint8Array` to a Base64-encoded string.
@@ -193,7 +193,7 @@ console.log(base64ToUint8Array('SGVsbG8='));
 //=> Uint8Array [72, 101, 108, 108, 111]
 ```
 */
-export function base64ToUint8Array(string: string): Uint8Array;
+export function base64ToUint8Array(string: string): Uint8Array<ArrayBuffer>;
 
 /**
 Encode a string to Base64-encoded string.
@@ -257,7 +257,7 @@ console.log(hexToUint8Array('48656c6c6f'));
 //=> Uint8Array [72, 101, 108, 108, 111]
 ```
 */
-export function hexToUint8Array(hexString: string): Uint8Array;
+export function hexToUint8Array(hexString: string): Uint8Array<ArrayBuffer>;
 
 /**
 Read `DataView#byteLength` number of bytes from the given view, up to 48-bit.
