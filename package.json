@@ -1,6 +1,6 @@
 {
 	"name": "uint8array-extras",
-	"version": "1.4.0",
+	"version": "1.4.1",
 	"description": "Useful utilities for working with Uint8Array (and Buffer)",
 	"license": "MIT",
 	"repository": "sindresorhus/uint8array-extras",
