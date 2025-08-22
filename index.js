@@ -146,18 +146,12 @@ const MAX_BLOCK_SIZE = 65_535;
 export function uint8ArrayToBase64(array, {urlSafe = false} = {}) {
 	assertUint8Array(array);
 
-	let base64;
+	let base64 = '';
 
-	if (array.length < MAX_BLOCK_SIZE) {
-	// Required as `btoa` and `atob` don't properly support Unicode: https://developer.mozilla.org/en-US/docs/Glossary/Base64#the_unicode_problem
-		base64 = globalThis.btoa(String.fromCodePoint.apply(this, array));
-	} else {
-		base64 = '';
-		for (const value of array) {
-			base64 += String.fromCodePoint(value);
-		}
-
-		base64 = globalThis.btoa(base64);
+	for (let index = 0; index < array.length; index += MAX_BLOCK_SIZE) {
+		const chunk = array.subarray(index, index + MAX_BLOCK_SIZE);
+		// Required as `btoa` and `atob` don't properly support Unicode: https://developer.mozilla.org/en-US/docs/Glossary/Base64#the_unicode_problem
+		base64 += globalThis.btoa(String.fromCodePoint.apply(this, chunk));
 	}
 
 	return urlSafe ? base64ToBase64Url(base64) : base64;
