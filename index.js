@@ -137,10 +137,13 @@ function base64ToBase64Url(base64) {
 }
 
 function base64UrlToBase64(base64url) {
-	return base64url.replaceAll('-', '+').replaceAll('_', '/');
+	const base64 = base64url.replaceAll('-', '+').replaceAll('_', '/');
+	const padding = (4 - (base64.length % 4)) % 4;
+	return base64 + '='.repeat(padding);
 }
 
 // Reference: https://phuoc.ng/collection/this-vs-that/concat-vs-push/
+// Important: Keep this value divisible by 3 so intermediate chunks produce no Base64 padding.
 const MAX_BLOCK_SIZE = 65_535;
 
 export function uint8ArrayToBase64(array, {urlSafe = false} = {}) {
@@ -151,7 +154,7 @@ export function uint8ArrayToBase64(array, {urlSafe = false} = {}) {
 	for (let index = 0; index < array.length; index += MAX_BLOCK_SIZE) {
 		const chunk = array.subarray(index, index + MAX_BLOCK_SIZE);
 		// Required as `btoa` and `atob` don't properly support Unicode: https://developer.mozilla.org/en-US/docs/Glossary/Base64#the_unicode_problem
-		base64 += globalThis.btoa(String.fromCodePoint.apply(this, chunk));
+		base64 += globalThis.btoa(String.fromCodePoint.apply(undefined, chunk));
 	}
 
 	return urlSafe ? base64ToBase64Url(base64) : base64;

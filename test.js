@@ -2,6 +2,7 @@ import test from 'ava';
 import {
 	isUint8Array,
 	assertUint8Array,
+	assertUint8ArrayOrArrayBuffer,
 	toUint8Array,
 	concatUint8Arrays,
 	areUint8ArraysEqual,
@@ -47,6 +48,12 @@ test('toUint8Array - ArrayBuffer', t => {
 test('toUint8Array - DataView', t => {
 	const fixture = new DataView(new ArrayBuffer(1));
 	t.true(isUint8ArrayStrict(toUint8Array(fixture)));
+});
+
+test('toUint8Array - unsupported value throws', t => {
+	t.throws(() => {
+		toUint8Array(123);
+	}, {instanceOf: TypeError});
 });
 
 test('concatUint8Arrays - combining multiple Uint8Arrays', t => {
@@ -141,6 +148,21 @@ test('uint8ArrayToString with ArrayBuffer', t => {
 	t.is(uint8ArrayToString(fixture), 'Hello');
 });
 
+test('assertUint8ArrayOrArrayBuffer', t => {
+	const u8 = new Uint8Array(0);
+	const ab = new ArrayBuffer(0);
+	// Should not throw
+	assertUint8ArrayOrArrayBuffer(u8);
+	assertUint8ArrayOrArrayBuffer(ab);
+	// Should throw on invalid types
+	t.throws(() => {
+		assertUint8ArrayOrArrayBuffer(null);
+	}, {instanceOf: TypeError});
+	t.throws(() => {
+		assertUint8ArrayOrArrayBuffer({});
+	}, {instanceOf: TypeError});
+});
+
 test('uint8ArrayToBase64 and base64ToUint8Array', t => {
 	const fixture = stringToUint8Array('Hello');
 	const base64 = uint8ArrayToBase64(fixture);
@@ -179,6 +201,18 @@ test('hexToUint8Array', t => {
 	const fixtureString = 'Hello - a Ā 𐀀 文 🦄';
 	const fixtureHex = Buffer.from(fixtureString).toString('hex'); // eslint-disable-line n/prefer-global/buffer
 	t.deepEqual(hexToUint8Array(fixtureHex), new Uint8Array(Buffer.from(fixtureHex, 'hex'))); // eslint-disable-line n/prefer-global/buffer
+});
+
+test('hexToUint8Array - invalid length throws', t => {
+	t.throws(() => {
+		hexToUint8Array('A');
+	}, {message: 'Invalid Hex string length.'});
+});
+
+test('hexToUint8Array - invalid character throws', t => {
+	t.throws(() => {
+		hexToUint8Array('0G');
+	}, {message: /Invalid Hex character encountered at position 0|position 1/});
 });
 
 test('getUintBE', t => {
@@ -239,4 +273,50 @@ test('includes', t => {
 	const fixture = [0x12, 0x34, 0x56, 0x78, 0x90, 0xab, 0xcd, 0xef]; // eslint-disable-line unicorn/number-literal-case
 	t.true(includes(new Uint8Array(fixture), new Uint8Array([0x78, 0x90])));
 	t.false(includes(new Uint8Array(fixture), new Uint8Array([0x90, 0x78])));
+});
+
+test('uint8ArrayToBase64 - empty input returns empty string', t => {
+	const empty = new Uint8Array(0);
+	t.is(uint8ArrayToBase64(empty), '');
+	// And decode back
+	t.deepEqual(base64ToUint8Array(''), empty);
+});
+
+test('uint8ArrayToBase64 - chunk boundaries and padding are correct', t => {
+	const make = length => new Uint8Array(Array.from({length}, () => 0x41)); // 0x41 = 'A'
+	const sizes = [
+		65_534, // Chunk size - 1 (length % 3 === 2)
+		65_535, // Exact chunk size (length % 3 === 0)
+		65_536, // Chunk size + 1 (length % 3 === 1)
+		(2 * 65_535) - 2,
+		(2 * 65_535) - 1,
+		(2 * 65_535),
+		(2 * 65_535) + 1,
+	];
+
+	for (const size of sizes) {
+		const u8 = make(size);
+		const b64 = uint8ArrayToBase64(u8);
+		const roundTrip = base64ToUint8Array(b64);
+		t.deepEqual(roundTrip, u8);
+	}
+});
+
+test('base64ToUint8Array - accepts Base64URL without padding', t => {
+	const cases = [
+		['f', 'Zg'],
+		['fo', 'Zm8'],
+		['foo', 'Zm9v'],
+		['foob', 'Zm9vYg'],
+		['fooba', 'Zm9vYmE'],
+		['foobar', 'Zm9vYmFy'],
+	];
+
+	for (const [plain, base64url] of cases) {
+		const decoded = base64ToString(base64url);
+		t.is(decoded, plain);
+		// And Uint8Array path
+		const u8 = base64ToUint8Array(base64url);
+		t.is(uint8ArrayToString(u8), plain);
+	}
 });

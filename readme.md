@@ -65,11 +65,24 @@ try {
 }
 ```
 
+### `assertUint8ArrayOrArrayBuffer(value: unknown)`
+
+Throw a `TypeError` if the given value is not an instance of `Uint8Array` or `ArrayBuffer`.
+
+Useful as a guard for functions that accept either a `Uint8Array` or `ArrayBuffer`.
+
+```js
+import {assertUint8ArrayOrArrayBuffer} from 'uint8array-extras';
+
+assertUint8ArrayOrArrayBuffer(new Uint8Array());
+assertUint8ArrayOrArrayBuffer(new ArrayBuffer(8));
+```
+
 ### `toUint8Array(value: TypedArray | ArrayBuffer | DataView): Uint8Array`
 
 Convert a value to a `Uint8Array` without copying its data.
 
-This can be useful for converting a `Buffer` to a pure `Uint8Array`. `Buffer` is already an `Uint8Array` subclass, but [`Buffer` alters some behavior](https://sindresorhus.com/blog/goodbye-nodejs-buffer), so it can be useful to cast it to a pure `Uint8Array` before returning it.
+This can be useful for converting a `Buffer` to a pure `Uint8Array`. `Buffer` is already a `Uint8Array` subclass, but [`Buffer` alters some behavior](https://sindresorhus.com/blog/goodbye-nodejs-buffer), so it can be useful to cast it to a pure `Uint8Array` before returning it.
 
 Tip: If you want a copy, just call `.slice()` on the return value.
 
@@ -188,6 +201,8 @@ console.log(uint8ArrayToBase64(byteArray));
 
 Convert a Base64-encoded or [Base64URL](https://base64.guru/standards/base64url)-encoded string to a `Uint8Array`.
 
+Accepts Base64URL with or without padding.
+
 Replacement for [`Buffer.from('SGVsbG8=', 'base64')`](https://nodejs.org/api/buffer.html#static-method-bufferfromstring-encoding).
 
 ```js
@@ -199,7 +214,7 @@ console.log(base64ToUint8Array('SGVsbG8='));
 
 ### `stringToBase64(string: string, options?: {urlSafe: boolean}): string`
 
-Encode a string to Base64-encoded string.
+Encode a string to a Base64-encoded string.
 
 Specify `{urlSafe: true}` to get a [Base64URL](https://base64.guru/standards/base64url)-encoded string.
 
@@ -215,6 +230,8 @@ console.log(stringToBase64('Hello'));
 ### `base64ToString(base64String: string): string`
 
 Decode a Base64-encoded or [Base64URL](https://base64.guru/standards/base64url)-encoded string to a string.
+
+Accepts Base64URL with or without padding.
 
 Replacement for `Buffer.from('SGVsbG8=', 'base64').toString()` and [`atob()`](https://developer.mozilla.org/en-US/docs/Web/API/atob).
 
@@ -257,7 +274,7 @@ console.log(hexToUint8Array('48656c6c6f'));
 
 Read `DataView#byteLength` number of bytes from the given view, up to 48-bit.
 
-Replacement for [`Buffer#readUintBE`](https://nodejs.org/api/buffer.html#bufreadintbeoffset-bytelength)
+Replacement for [`Buffer#readUIntBE`](https://nodejs.org/api/buffer.html#bufreaduintbeoffset-bytelength)
 
 ```js
 import {getUintBE} from 'uint8array-extras';
