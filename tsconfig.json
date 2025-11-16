@@ -1,0 +1,6 @@
+{
+	"include": ["index.d.ts"],
+	"compilerOptions": {
+		"lib": ["es2020"]
+	}
+}

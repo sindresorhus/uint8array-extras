@@ -20,7 +20,7 @@
 		"node": ">=18"
 	},
 	"scripts": {
-		"test": "xo && ava && tsc index.d.ts"
+		"test": "xo && ava && tsc -p ."
 	},
 	"files": [
 		"index.js",
@@ -48,7 +48,7 @@
 	"devDependencies": {
 		"ava": "^6.0.1",
 		"typescript": "^5.3.3",
-		"xo": "^0.56.0",
+		"xo": "^1.2.3",
 		"benchmark": "2.1.4"
 	}
 }
