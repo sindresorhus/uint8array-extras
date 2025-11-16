@@ -48,7 +48,7 @@
 	"devDependencies": {
 		"ava": "^6.4.1",
 		"typescript": "^5.9.3",
-		"xo": "^1.2.3",
+		"xo": "^0.56.0",
 		"benchmark": "2.1.4"
 	}
 }
