@@ -92,7 +92,7 @@ console.log(concatUint8Arrays([a, b]));
 //=> Uint8Array [1, 2, 3, 4, 5, 6]
 ```
 */
-export function concatUint8Arrays(arrays: Uint8Array[], totalLength?: number): Uint8Array<ArrayBuffer>;
+export function concatUint8Arrays(arrays: Array<Uint8Array | ArrayBuffer>, totalLength?: number): Uint8Array<ArrayBuffer>;
 
 /**
 Check if two arrays are identical by verifying that they contain the same bytes in the same sequence.
@@ -114,7 +114,7 @@ console.log(areUint8ArraysEqual(a, c));
 //=> false
 ```
 */
-export function areUint8ArraysEqual(a: Uint8Array, b: Uint8Array): boolean;
+export function areUint8ArraysEqual(a: Uint8Array | ArrayBuffer, b: Uint8Array | ArrayBuffer): boolean;
 
 /**
 Compare two arrays and indicate their relative order or equality. Useful for sorting.
@@ -133,7 +133,7 @@ const array3 = new Uint8Array([7, 8, 9]);
 //=> [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 ```
 */
-export function compareUint8Arrays(a: Uint8Array, b: Uint8Array): 0 | 1 | -1;
+export function compareUint8Arrays(a: Uint8Array | ArrayBuffer, b: Uint8Array | ArrayBuffer): 0 | 1 | -1;
 
 /**
 Convert a `Uint8Array` to a string.
@@ -193,7 +193,7 @@ console.log(uint8ArrayToBase64(byteArray));
 //=> 'SGVsbG8='
 ```
 */
-export function uint8ArrayToBase64(array: Uint8Array, options?: {urlSafe: boolean}): string;
+export function uint8ArrayToBase64(array: Uint8Array | ArrayBuffer, options?: {urlSafe: boolean}): string;
 
 /**
 Convert a Base64-encoded or [Base64URL](https://base64.guru/standards/base64url)-encoded string to a `Uint8Array`.
@@ -261,7 +261,7 @@ console.log(uint8ArrayToHex(byteArray));
 //=> '48656c6c6f'
 ```
 */
-export function uint8ArrayToHex(array: Uint8Array): string;
+export function uint8ArrayToHex(array: Uint8Array | ArrayBuffer): string;
 
 /**
 Convert a Hex string to a `Uint8Array`.
@@ -310,7 +310,7 @@ console.log(indexOf(byteArray, new Uint8Array([0x78, 0x90])));
 //=> 3
 ```
 */
-export function indexOf(array: Uint8Array, value: Uint8Array): number;
+export function indexOf(array: Uint8Array | ArrayBuffer, value: Uint8Array | ArrayBuffer): number;
 
 /**
 Checks if the given sequence of bytes (`value`) is within the given `Uint8Array` (`array`).
@@ -328,4 +328,4 @@ console.log(includes(byteArray, new Uint8Array([0x78, 0x90])));
 //=> true
 ```
 */
-export function includes(array: Uint8Array, value: Uint8Array): boolean;
+export function includes(array: Uint8Array | ArrayBuffer, value: Uint8Array | ArrayBuffer): boolean;

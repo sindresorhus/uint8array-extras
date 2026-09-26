@@ -26,6 +26,10 @@ function isUint8ArrayOrArrayBuffer(value) {
 	return isUint8Array(value) || isArrayBuffer(value);
 }
 
+function toUint8ArrayIfArrayBuffer(value) {
+	return isArrayBuffer(value) ? new Uint8Array(value) : value;
+}
+
 export function assertUint8Array(value) {
 	if (!isUint8Array(value)) {
 		throw new TypeError(`Expected \`Uint8Array\`, got \`${typeof value}\``);
@@ -55,13 +59,14 @@ export function concatUint8Arrays(arrays, totalLength) {
 		return new Uint8Array(0);
 	}
 
-	totalLength ??= arrays.reduce((accumulator, currentValue) => accumulator + currentValue.length, 0);
+	totalLength ??= arrays.reduce((accumulator, currentValue) => accumulator + currentValue.byteLength, 0);
 
 	const returnValue = new Uint8Array(totalLength);
 
 	let offset = 0;
-	for (const array of arrays) {
-		assertUint8Array(array);
+	for (let array of arrays) {
+		assertUint8ArrayOrArrayBuffer(array);
+		array = toUint8ArrayIfArrayBuffer(array);
 		returnValue.set(array, offset);
 		offset += array.length;
 	}
@@ -70,8 +75,10 @@ export function concatUint8Arrays(arrays, totalLength) {
 }
 
 export function areUint8ArraysEqual(a, b) {
-	assertUint8Array(a);
-	assertUint8Array(b);
+	assertUint8ArrayOrArrayBuffer(a);
+	assertUint8ArrayOrArrayBuffer(b);
+	a = toUint8ArrayIfArrayBuffer(a);
+	b = toUint8ArrayIfArrayBuffer(b);
 
 	if (a === b) {
 		return true;
@@ -92,8 +99,10 @@ export function areUint8ArraysEqual(a, b) {
 }
 
 export function compareUint8Arrays(a, b) {
-	assertUint8Array(a);
-	assertUint8Array(b);
+	assertUint8ArrayOrArrayBuffer(a);
+	assertUint8ArrayOrArrayBuffer(b);
+	a = toUint8ArrayIfArrayBuffer(a);
+	b = toUint8ArrayIfArrayBuffer(b);
 
 	const length = Math.min(a.length, b.length);
 
@@ -147,7 +156,8 @@ function base64UrlToBase64(base64url) {
 const MAX_BLOCK_SIZE = 65_535;
 
 export function uint8ArrayToBase64(array, {urlSafe = false} = {}) {
-	assertUint8Array(array);
+	assertUint8ArrayOrArrayBuffer(array);
+	array = toUint8ArrayIfArrayBuffer(array);
 
 	let base64 = '';
 
@@ -178,7 +188,8 @@ export function base64ToString(base64String) {
 const byteToHexLookupTable = Array.from({length: 256}, (_, index) => index.toString(16).padStart(2, '0'));
 
 export function uint8ArrayToHex(array) {
-	assertUint8Array(array);
+	assertUint8ArrayOrArrayBuffer(array);
+	array = toUint8ArrayIfArrayBuffer(array);
 
 	// Concatenating a string is faster than using an array.
 	let hexString = '';
@@ -273,11 +284,14 @@ export function getUintBE(view) {
 }
 
 /**
-@param {Uint8Array} array
-@param {Uint8Array} value
+@param {Uint8Array | ArrayBuffer} array
+@param {Uint8Array | ArrayBuffer} value
 @returns {number}
 */
 export function indexOf(array, value) {
+	array = toUint8ArrayIfArrayBuffer(array);
+	value = toUint8ArrayIfArrayBuffer(value);
+
 	const arrayLength = array.length;
 	const valueLength = value.length;
 
@@ -309,8 +323,8 @@ export function indexOf(array, value) {
 }
 
 /**
-@param {Uint8Array} array
-@param {Uint8Array} value
+@param {Uint8Array | ArrayBuffer} array
+@param {Uint8Array | ArrayBuffer} value
 @returns {boolean}
 */
 export function includes(array, value) {

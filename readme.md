@@ -86,7 +86,7 @@ This can be useful for converting a `Buffer` to a pure `Uint8Array`. `Buffer` is
 
 Tip: If you want a copy, just call `.slice()` on the return value.
 
-### `concatUint8Arrays(arrays: Uint8Array[], totalLength?: number): Uint8Array`
+### `concatUint8Arrays(arrays: Array<Uint8Array | ArrayBuffer>, totalLength?: number): Uint8Array`
 
 Concatenate the given arrays into a new array.
 
@@ -106,7 +106,7 @@ console.log(concatUint8Arrays([a, b]));
 //=> Uint8Array [1, 2, 3, 4, 5, 6]
 ```
 
-### `areUint8ArraysEqual(a: Uint8Array, b: Uint8Array): boolean`
+### `areUint8ArraysEqual(a: Uint8Array | ArrayBuffer, b: Uint8Array | ArrayBuffer): boolean`
 
 Check if two arrays are identical by verifying that they contain the same bytes in the same sequence.
 
@@ -126,7 +126,7 @@ console.log(areUint8ArraysEqual(a, c));
 //=> false
 ```
 
-### `compareUint8Arrays(a: Uint8Array, b: Uint8Array): 0 | 1 | -1`
+### `compareUint8Arrays(a: Uint8Array | ArrayBuffer, b: Uint8Array | ArrayBuffer): 0 | 1 | -1`
 
 Compare two arrays and indicate their relative order or equality. Useful for sorting.
 
@@ -180,7 +180,7 @@ console.log(stringToUint8Array('Hello'));
 //=> Uint8Array [72, 101, 108, 108, 111]
 ```
 
-### `uint8ArrayToBase64(array: Uint8Array, options?: {urlSafe: boolean}): string`
+### `uint8ArrayToBase64(array: Uint8Array | ArrayBuffer, options?: {urlSafe: boolean}): string`
 
 Convert a `Uint8Array` to a Base64-encoded string.
 
@@ -242,7 +242,7 @@ console.log(base64ToString('SGVsbG8='));
 //=> 'Hello'
 ```
 
-### `uint8ArrayToHex(array: Uint8Array): string`
+### `uint8ArrayToHex(array: Uint8Array | ArrayBuffer): string`
 
 Convert a `Uint8Array` to a Hex string.
 
@@ -285,7 +285,7 @@ console.log(getUintBE(new DataView(byteArray.buffer)));
 //=> 20015998341291
 ```
 
-### `indexOf(array: Uint8Array, value: Uint8Array): number`
+### `indexOf(array: Uint8Array | ArrayBuffer, value: Uint8Array | ArrayBuffer): number`
 
 Find the index of the first occurrence of the given sequence of bytes (`value`) within the given `Uint8Array` (`array`).
 
@@ -300,7 +300,7 @@ console.log(indexOf(byteArray, new Uint8Array([0x78, 0x90])));
 //=> 3
 ```
 
-### `includes(array: Uint8Array, value: Uint8Array): boolean`
+### `includes(array: Uint8Array | ArrayBuffer, value: Uint8Array | ArrayBuffer): boolean`
 
 Checks if the given sequence of bytes (`value`) is within the given `Uint8Array` (`array`).
 

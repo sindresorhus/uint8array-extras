@@ -75,8 +75,16 @@ test('concatUint8Arrays - throws when input is not a Uint8Array', t => {
 		concatUint8Arrays([123]);
 	}, {
 		instanceOf: TypeError,
-		message: 'Expected `Uint8Array`, got `number`',
+		message: 'Expected `Uint8Array` or `ArrayBuffer`, got `number`',
 	});
+});
+
+test('concatUint8Arrays - with ArrayBuffer', t => {
+	const array1 = new Uint8Array([1, 2, 3]);
+	const arrayBuffer = new Uint8Array([4, 5, 6]).buffer;
+
+	t.deepEqual(concatUint8Arrays([array1, arrayBuffer]), new Uint8Array([1, 2, 3, 4, 5, 6]));
+	t.deepEqual(concatUint8Arrays([arrayBuffer], 3), new Uint8Array([4, 5, 6]));
 });
 
 test('areUint8ArraysEqual - with identical Uint8Arrays', t => {
@@ -95,6 +103,13 @@ test('areUint8ArraysEqual - with different sizes', t => {
 	const array1 = new Uint8Array([1, 2, 3]);
 	const array4 = new Uint8Array([1, 2, 3, 4]);
 	t.false(areUint8ArraysEqual(array1, array4));
+});
+
+test('areUint8ArraysEqual - with ArrayBuffer', t => {
+	const array = new Uint8Array([1, 2, 3]);
+	t.true(areUint8ArraysEqual(array, new Uint8Array([1, 2, 3]).buffer));
+	t.true(areUint8ArraysEqual(new Uint8Array([1, 2, 3]).buffer, array));
+	t.false(areUint8ArraysEqual(array, new Uint8Array([1, 2, 4]).buffer));
 });
 
 test('compareUint8Arrays - with identical Uint8Arrays', t => {
@@ -120,6 +135,13 @@ test('compareUint8Arrays - with different lengths', t => {
 	const array5 = new Uint8Array([1, 2, 3, 4]);
 	t.is(compareUint8Arrays(array1, array5), -1);
 	t.is(compareUint8Arrays(array5, array1), 1);
+});
+
+test('compareUint8Arrays - with ArrayBuffer', t => {
+	const array = new Uint8Array([1, 2, 3]);
+	t.is(compareUint8Arrays(array, new Uint8Array([1, 2, 3]).buffer), 0);
+	t.is(compareUint8Arrays(new Uint8Array([1, 3, 3]).buffer, array), 1);
+	t.is(compareUint8Arrays(array, new Uint8Array([1, 2, 3, 4]).buffer), -1);
 });
 
 test('stringToUint8Array and uint8ArrayToString', t => {
@@ -170,6 +192,12 @@ test('uint8ArrayToBase64 and base64ToUint8Array', t => {
 	t.deepEqual(base64ToUint8Array(base64), fixture);
 });
 
+test('uint8ArrayToBase64 with ArrayBuffer', t => {
+	const fixture = stringToUint8Array('Hello').buffer;
+	t.is(uint8ArrayToBase64(fixture), 'SGVsbG8=');
+	t.is(uint8ArrayToBase64(new Uint8Array([251, 255]).buffer, {urlSafe: true}), '-_8');
+});
+
 test('should handle uint8ArrayToBase64 with 200k items', t => {
 	const fixture = stringToUint8Array('H'.repeat(200_000));
 	const base64 = uint8ArrayToBase64(fixture);
@@ -195,6 +223,11 @@ test('stringToBase64 - urlSafe option', t => {
 test('uint8ArrayToHex', t => {
 	const fixture = stringToUint8Array('Hello - a Ā 𐀀 文 🦄');
 	t.is(uint8ArrayToHex(fixture), Buffer.from(fixture).toString('hex')); // eslint-disable-line n/prefer-global/buffer
+});
+
+test('uint8ArrayToHex with ArrayBuffer', t => {
+	const fixture = new Uint8Array([0, 15, 16, 255]).buffer;
+	t.is(uint8ArrayToHex(fixture), '000f10ff');
 });
 
 test('hexToUint8Array', t => {
@@ -269,10 +302,22 @@ test('indexOf - single element found', t => {
 	t.is(indexOf(new Uint8Array(fixture), new Uint8Array(singleElement)), 2);
 });
 
+test('indexOf - with ArrayBuffer', t => {
+	const fixture = new Uint8Array([0x12, 0x34, 0x56, 0x78, 0x90]);
+	t.is(indexOf(fixture.buffer, new Uint8Array([0x56, 0x78])), 2);
+	t.is(indexOf(fixture, new Uint8Array([0x56, 0x78]).buffer), 2);
+});
+
 test('includes', t => {
 	const fixture = [0x12, 0x34, 0x56, 0x78, 0x90, 0xab, 0xcd, 0xef]; // eslint-disable-line unicorn/number-literal-case
 	t.true(includes(new Uint8Array(fixture), new Uint8Array([0x78, 0x90])));
 	t.false(includes(new Uint8Array(fixture), new Uint8Array([0x90, 0x78])));
+});
+
+test('includes - with ArrayBuffer', t => {
+	const fixture = new Uint8Array([0x12, 0x34, 0x56, 0x78, 0x90]);
+	t.true(includes(fixture.buffer, new Uint8Array([0x78, 0x90]).buffer));
+	t.false(includes(fixture.buffer, new Uint8Array([0x90, 0x78]).buffer));
 });
 
 test('uint8ArrayToBase64 - empty input returns empty string', t => {
